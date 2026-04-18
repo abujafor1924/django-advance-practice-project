@@ -23,5 +23,5 @@ COPY . /app/
 # Default port
 EXPOSE 8000
 
-# Run gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "bellevie.wsgi:application"]
+# Run gunicorn with config file
+CMD ["gunicorn", "--config", "docker/gunicorn_config.py", "bellevie.wsgi:application"]
