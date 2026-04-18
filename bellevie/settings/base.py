@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     
     #third party apps
     'rest_framework',
+    'django_filters',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     "drf_spectacular",
@@ -52,10 +53,9 @@ INSTALLED_APPS = [
     #local apps
     "authentication",
     'api',
-    
-    
-    
-    
+    'slider',
+    'foreign_treatments',
+    'popular_service',
 ]
 
 MIDDLEWARE = [
@@ -134,8 +134,14 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@belleviehealth.com'
+EMAIL_HOST = config('EMAIL_HOST', default='localhost')
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
@@ -146,10 +152,21 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://dara-unadjudicated-befittingly.ngrok-free.dev",
+    "http://dara-unadjudicated-befittingly.ngrok-free.dev",
+    "https://*.ngrok-free.dev",
+    "http://*.ngrok-free.dev"
+]
+
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 #authentication settings
-# AUTH_USER_MODEL = 'accounts.Account'
+AUTH_USER_MODEL = 'authentication.User'
 # settings/local.py বা base.py
 
 
@@ -159,6 +176,11 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
 }
 
 
@@ -202,7 +224,7 @@ JAZZMIN_SETTINGS = {
     "site_title": "Bellevie Global Admin",
     "site_header": "Bellevie Global",
     "site_brand": "Bellevie Global",
-    "site_logo": "logo/DMA-logo-short.gif",
+    "site_logo": "logo/app_icon.png",
 
     'show_ui_builder': True,
     'show_side_menu': True,
