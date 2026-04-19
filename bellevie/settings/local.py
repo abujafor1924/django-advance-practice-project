@@ -11,5 +11,5 @@ if DEBUG:
 
 
 DATABASES = {
-    'default': dj_database_url.config(default=config('DATABASE_URL'))
+    'default': dj_database_url.config(default=config('DATABASE_URL', default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"))
 }
