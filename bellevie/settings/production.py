@@ -11,6 +11,11 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS_CONFIG = config('ALLOWED_HOSTS', default='localhost,127.0.0.1')
 ALLOWED_HOSTS = [s.strip() for s in ALLOWED_HOSTS_CONFIG.split(',') if s.strip()]
 
+import sys
+
+# Check if we are running tests
+TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+
 # ===========================
 # Security Settings
 # ===========================
@@ -20,11 +25,11 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
 
 # Cookies
-SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
-CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=not TESTING, cast=bool)
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=not TESTING, cast=bool)
 
 # SSL & HSTS
-SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=True, cast=bool)
+SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=not TESTING, cast=bool)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=31536000, cast=int)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = config('SECURE_HSTS_INCLUDE_SUBDOMAINS', default=True, cast=bool)
