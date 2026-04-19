@@ -11,15 +11,13 @@ jobs:
     name: Test and Lint
     runs-on: ubuntu-latest
     env:
-      # Django Secret Key used for the testing environment. 
-      # Set this in GitHub Secrets (Settings > Secrets and variables > Actions)
       SECRET_KEY: ${{ secrets.TEST_SECRET_KEY }}
       DEBUG: "True"
       DATABASE_URL: "sqlite:///:memory:"
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3``
+        uses: actions/checkout@v4
 
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
@@ -35,9 +33,7 @@ jobs:
 
       - name: Lint with flake8
         run: |
-          # stop the build if there are Python syntax errors or undefined names
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
       - name: Check Database Migrations
@@ -59,50 +55,27 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          # SERVER_IP: The public IP address or domain name of your production server.
           host: ${{ secrets.SERVER_IP }}
-
-          # SERVER_USER: The SSH username used to log into the server (e.g., 'root', 'ubuntu', or 'deploy').
           username: ${{ secrets.SERVER_USER }}
-
-          # SSH_PRIVATE_KEY: The private key used for authentication. 
-          # Ensure the corresponding public key is in the server's ~/.ssh/authorized_keys file.
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-          # SERVER_PORT: (Optional) The port your server's SSH service is listening on (default is 22).
           port: ${{ secrets.SERVER_PORT || 22 }}
-
           script: |
             set -e
             echo "Starting deployment..."
-
-            # Navigate to the project directory
             cd /var/www/bellevie-backend-code
-
-            # NOTE: Ensure your .env file in this directory contains:
+            
+            # Database Config Reminder:
             # POSTGRES_DB=main_db
             # POSTGRES_USER=postgres
             # POSTGRES_PASSWORD=123456
             # POSTGRES_HOST=db
             # POSTGRES_PORT=5432
-
-            echo "Fetching latest changes..."
+            
             git fetch origin main
-
-            # Reset the local repository to match the remote 'main' branch exactly
             git reset --hard origin/main
-
-            echo "Building and restarting containers..."
+            
             cd docker
-
-            # Pull the latest versions of the base images
             docker compose pull
-
-            # Rebuild and start the containers in detached mode
             docker compose up -d --build
-
-            echo "Cleaning up old images..."
-            # Removes unused images to save disk space on the server
             docker image prune -f
-
             echo "Deployment successful!"
