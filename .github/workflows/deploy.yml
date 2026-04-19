@@ -66,21 +66,31 @@ jobs:
           port: ${{ secrets.SERVER_PORT || 22 }}
           script: |
             set -e
-            echo "Starting deployment..."
+            echo "--- Checking Deployment Directory ---"
+            if [ ! -d "/var/www/bellevie-backend-code" ]; then
+              echo "Error: Directory /var/www/bellevie-backend-code not found on server."
+              exit 1
+            fi
             cd /var/www/bellevie-backend-code
             
-            # Database Config Reminder:
-            # POSTGRES_DB=main_db
-            # POSTGRES_USER=postgres
-            # POSTGRES_PASSWORD=123456
-            # POSTGRES_HOST=db
-            # POSTGRES_PORT=5432
-            
+            echo "--- Updating Code ---"
             git fetch origin main
             git reset --hard origin/main
             
+            echo "--- Checking Docker Command ---"
+            if docker compose version > /dev/null 2>&1; then
+              DOCKER_CMD="docker compose"
+            else
+              DOCKER_CMD="docker-compose"
+            fi
+            echo "Using command: $DOCKER_CMD"
+
             cd docker
-            docker compose pull
-            docker compose up -d --build
+            
+            echo "--- Restarting Services ---"
+            $DOCKER_CMD pull || echo "Pull failed, continuing..."
+            $DOCKER_CMD up -d --build
+            
+            echo "--- Post-Deployment Cleanup ---"
             docker image prune -f
             echo "Deployment successful!"
