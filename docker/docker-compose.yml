@@ -50,7 +50,47 @@ services:
     depends_on:
       - web
 
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ../monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - "9090:9090"
+    depends_on:
+      - web
+
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter
+    environment:
+      - DATA_SOURCE_NAME=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-123456}@db:5432/${POSTGRES_DB:-main_db}?sslmode=disable
+    depends_on:
+      - db
+
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    command:
+      - "-nginx.scrape-uri=http://nginx:80/metrics"
+    depends_on:
+      - nginx
+
 volumes:
   postgres_data:
   static_volume:
   media_volume:
+  prometheus_data:
+  grafana_data:
