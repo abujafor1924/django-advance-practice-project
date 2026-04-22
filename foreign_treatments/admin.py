@@ -14,7 +14,7 @@ class CountryAdmin(admin.ModelAdmin):
 
 @admin.register(Hospital)
 class HospitalAdmin(admin.ModelAdmin):
-    list_display = ('name', 'country', 'public_hospital_count', 'created_at')
+    list_display = ('name', 'country', 'speciality', 'created_at')
     list_filter = ('country', 'created_at')
     search_fields = ('name', 'country__name')
     inlines = [HospitalDetailInline]

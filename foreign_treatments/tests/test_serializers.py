@@ -12,7 +12,7 @@ class SerializerTest(TestCase):
             country=self.country,
             name="Test Hospital",
             icon=self.icon,
-            public_hospital_count=5
+            speciality="General"
         )
         self.banner = SimpleUploadedFile(name='test_banner.png', content=b'content', content_type='image/png')
         self.hospital_detail = HospitalDetail.objects.create(
@@ -32,7 +32,7 @@ class SerializerTest(TestCase):
         serializer = HospitalSerializer(instance=self.hospital)
         data = serializer.data
         self.assertEqual(data['name'], self.hospital.name)
-        self.assertEqual(data['public_hospital_count'], self.hospital.public_hospital_count)
+        self.assertEqual(data['speciality'], self.hospital.speciality)
 
     def test_hospital_detail_serializer(self):
         serializer = HospitalDetailSerializer(instance=self.hospital_detail)

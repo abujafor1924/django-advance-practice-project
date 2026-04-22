@@ -14,7 +14,7 @@ class CountrySerializer(serializers.ModelSerializer):
 class HospitalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hospital
-        fields = ['id', 'name', 'icon', 'public_hospital_count', 'country']
+        fields = ['id', 'name', 'icon', 'speciality', 'country']
 
 class HospitalDetailSerializer(serializers.ModelSerializer):
     class Meta:

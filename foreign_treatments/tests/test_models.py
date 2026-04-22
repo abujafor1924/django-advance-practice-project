@@ -27,7 +27,7 @@ class HospitalModelTest(TestCase):
             country=self.country,
             name="Test Hospital",
             icon=self.icon,
-            public_hospital_count=5
+            speciality="General"
         )
 
     def test_hospital_creation(self):

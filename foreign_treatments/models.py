@@ -16,7 +16,7 @@ class Hospital(models.Model):
     country = models.ForeignKey(Country, related_name='hospitals', on_delete=models.CASCADE)
     name = models.CharField(max_length=150)
     icon = models.ImageField(upload_to='hospital_icons/')
-    public_hospital_count = models.IntegerField(blank=True, null=True)
+    speciality = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
