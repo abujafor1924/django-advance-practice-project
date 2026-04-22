@@ -12,8 +12,7 @@ class ForeignTreatmentsViewTest(APITestCase):
         self.hospital = Hospital.objects.create(
             country=self.country,
             name="Test Hospital",
-            icon=self.icon,
-            agreement_status="Done"
+            icon=self.icon
         )
         self.banner = SimpleUploadedFile(name='test_banner.png', content=b'content', content_type='image/png')
         self.hospital_detail = HospitalDetail.objects.create(

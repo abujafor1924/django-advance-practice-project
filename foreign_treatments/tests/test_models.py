@@ -27,7 +27,6 @@ class HospitalModelTest(TestCase):
             country=self.country,
             name="Test Hospital",
             icon=self.icon,
-            agreement_status="Done",
             public_hospital_count=5
         )
 
@@ -44,8 +43,7 @@ class HospitalDetailModelTest(TestCase):
         self.hospital = Hospital.objects.create(
             country=self.country,
             name="Test Hospital",
-            icon=self.icon,
-            agreement_status="Done"
+            icon=self.icon
         )
         self.banner = SimpleUploadedFile(name='test_banner.png', content=b'content', content_type='image/png')
         self.hospital_detail = HospitalDetail.objects.create(

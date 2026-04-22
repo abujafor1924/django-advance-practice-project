@@ -13,16 +13,9 @@ class Country(models.Model):
         return self.name
 
 class Hospital(models.Model):
-    AGREEMENT_CHOICES = [
-        ('Done', 'Done'),
-        ("Trough Doctors", "Trough Doctors"),
-        ("WIP", "WIP"),
-        ('Pending', 'Pending'),
-    ]
     country = models.ForeignKey(Country, related_name='hospitals', on_delete=models.CASCADE)
     name = models.CharField(max_length=150)
     icon = models.ImageField(upload_to='hospital_icons/')
-    agreement_status = models.CharField(max_length=20, choices=AGREEMENT_CHOICES)
     public_hospital_count = models.IntegerField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
