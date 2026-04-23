@@ -8,7 +8,7 @@ class ServiceCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(SubCategory)
 class SubCategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'category', 'name')
+    list_display = ('id', 'category', 'name', 'icon')
     list_filter = ('category',)
     search_fields = ('name',)
 

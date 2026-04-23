@@ -9,7 +9,7 @@ class ServiceCategorySerializer(serializers.ModelSerializer):
 class SubCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = SubCategory
-        fields = ['id', 'category', 'name']
+        fields = ['id', 'category', 'name', 'icon']
 
 class PopularServiceHospitalSerializer(serializers.ModelSerializer):
     class Meta:

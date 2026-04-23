@@ -10,7 +10,7 @@ class ServiceCategory(models.Model):
 class SubCategory(models.Model):
     category = models.ForeignKey(ServiceCategory, related_name='subcategories', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    # icon=models.ImageField(upload_to='subcategory_icons/', null=True, blank=True)
+    icon = models.ImageField(upload_to='subcategory_icons/', null=True, blank=True)
 
     def __str__(self):
         return f"{self.category.name} - {self.name}"
