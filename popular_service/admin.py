@@ -15,7 +15,6 @@ class SubCategoryAdmin(admin.ModelAdmin):
 @admin.register(Hospital)
 class HospitalAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
-    search_fields = ('name')
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
