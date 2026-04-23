@@ -14,8 +14,7 @@ class CountryAdmin(admin.ModelAdmin):
     can_delete = False
     verbose_name_plural = 'Countries'
     
-    def has_delete_permission(self, request, obj=None):
-        return False
+   
 
 @admin.register(Hospital)
 class HospitalAdmin(admin.ModelAdmin):
@@ -26,8 +25,7 @@ class HospitalAdmin(admin.ModelAdmin):
     can_delete = False
     verbose_name_plural = 'Hospitals'
     
-    def has_delete_permission(self, request, obj=None):
-        return False
+    
 
 @admin.register(HospitalDetail)
 class HospitalDetailAdmin(admin.ModelAdmin):
@@ -36,5 +34,4 @@ class HospitalDetailAdmin(admin.ModelAdmin):
     can_delete = False
     verbose_name_plural = 'Hospital Details'
     
-    def has_delete_permission(self, request, obj=None):
-        return False
+
