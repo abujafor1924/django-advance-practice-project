@@ -30,7 +30,9 @@ class Doctor(models.Model):
     designation = models.CharField(max_length=255)
     hospital = models.ForeignKey(Hospital, related_name='doctors', on_delete=models.CASCADE)
     subcategory = models.ForeignKey(SubCategory, related_name='doctors', on_delete=models.CASCADE)
-    doctor_details = models.TextField()
+    doctor_details = models.TextField(null=True, blank=True)
+    doctor_sedule = models.TextField(null=True, blank=True)
+    contact_details = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
