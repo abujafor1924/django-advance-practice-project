@@ -14,7 +14,7 @@ class SubCategorySerializer(serializers.ModelSerializer):
 class PopularServiceHospitalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hospital
-        fields = ['id', 'name', 'logo', 'address', 'contact_details']
+        fields = ['id', 'name']
 
 class DoctorListSerializer(serializers.ModelSerializer):
     hospital_name = serializers.CharField(source='hospital.name', read_only=True)

@@ -17,9 +17,7 @@ class SubCategory(models.Model):
 
 class Hospital(models.Model):
     name = models.CharField(max_length=255)
-    logo = models.ImageField(upload_to='hospital_logos/')
-    address = models.TextField()
-    contact_details = models.TextField()
+    
 
     def __str__(self):
         return self.name
