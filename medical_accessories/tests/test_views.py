@@ -17,12 +17,12 @@ class MedicalAccessoryAPITest(APITestCase):
         )
 
     def test_get_categories(self):
-        url = reverse('category-list')
+        url = reverse('accessory-category-list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_accessories_list(self):
-        url = reverse('accessory-list')
+        url = reverse('medical-accessory-list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # Check if only id, name, image are present in list (simplified check)
@@ -32,7 +32,7 @@ class MedicalAccessoryAPITest(APITestCase):
         self.assertNotIn('details', response.data['results'][0])
 
     def test_get_accessory_detail(self):
-        url = reverse('accessory-detail', kwargs={'pk': self.accessory.pk})
+        url = reverse('medical-accessory-detail', kwargs={'pk': self.accessory.pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['name'], "Test Accessory")
