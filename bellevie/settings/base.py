@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'foreign_treatments',
     'popular_service',
     'other_medical_service',
+    'medical_accessories',
 ]
 
 MIDDLEWARE = [
