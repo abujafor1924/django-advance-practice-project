@@ -20,13 +20,13 @@ class MedicalServiceViewsTest(APITestCase):
         )
 
     def test_get_categories(self):
-        url = reverse("category-list")
+        url = reverse("medical-category-list")
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data["results"]), 1)
 
     def test_get_doctors(self):
-        url = reverse("doctor-list")
+        url = reverse("medical-doctor-list")
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data["results"]), 1)
