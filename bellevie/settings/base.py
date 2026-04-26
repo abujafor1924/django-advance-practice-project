@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'slider',
     'foreign_treatments',
     'popular_service',
+    'other_medical_service',
 ]
 
 MIDDLEWARE = [

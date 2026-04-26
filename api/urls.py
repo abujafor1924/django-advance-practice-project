@@ -6,4 +6,5 @@ urlpatterns = [
     path('slider/', include('slider.urls')),
     path('foreign-treatments/', include('foreign_treatments.urls')),
     path('popular-service/', include('popular_service.urls')),
+    path('other-medical-service/', include('other_medical_service.urls')),
 ]
