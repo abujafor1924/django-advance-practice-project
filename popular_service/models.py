@@ -6,6 +6,9 @@ class ServiceCategory(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering = ['id']
 
 class SubCategory(models.Model):
     category = models.ForeignKey(ServiceCategory, related_name='subcategories', on_delete=models.CASCADE)
