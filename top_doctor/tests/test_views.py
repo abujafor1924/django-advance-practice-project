@@ -15,10 +15,10 @@ class TopDoctorViewsTest(APITestCase):
             designations="Cardiologist",
             experience="10 years"
         )
-        self.doctor_list_url = reverse('doctor-list')
-        self.booking_create_url = reverse('booking-create')
-        self.user_bookings_url = reverse('user-bookings')
-        self.payment_create_url = reverse('payment-create')
+        self.doctor_list_url = reverse('top-doctor-list')
+        self.booking_create_url = reverse('top-doctor-booking-create')
+        self.user_bookings_url = reverse('top-doctor-user-bookings')
+        self.payment_create_url = reverse('top-doctor-payment-create')
 
     def test_get_doctor_list(self):
         response = self.client.get(self.doctor_list_url)
