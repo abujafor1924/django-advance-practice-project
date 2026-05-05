@@ -8,4 +8,5 @@ urlpatterns = [
     path('popular-service/', include('popular_service.urls')),
     path('other-medical-service/', include('other_medical_service.urls')),
     path('medical-accessories/', include('medical_accessories.urls')),
+    path('top-doctor/', include('top_doctor.urls')),
 ]
