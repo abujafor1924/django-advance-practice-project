@@ -1,31 +1,22 @@
 from rest_framework import serializers
-from .models import SpecialCategory, SpecialHospital, SpecialDoctor, SpecialBooking, SpecialPayment
-
-class SpecialCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SpecialCategory
-        fields = ['id', 'name', 'icon']
-
-class SpecialHospitalSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SpecialHospital
-        fields = ['id', 'name', 'address', 'contact_details']
+from .models import SpecialDoctor, SpecialBooking, SpecialPayment
+from popular_service.serializers import PopularServiceHospitalSerializer
 
 class SpecialDoctorListSerializer(serializers.ModelSerializer):
     hospital_name = serializers.CharField(source='hospital.name', read_only=True)
-    category_name = serializers.CharField(source='category.name', read_only=True)
+    subcategory_name = serializers.CharField(source='subcategory.name', read_only=True)
 
     class Meta:
         model = SpecialDoctor
-        fields = ['id', 'name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital_name', 'category_name']
+        fields = ['id', 'name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital_name', 'subcategory_name']
 
 class SpecialDoctorDetailSerializer(serializers.ModelSerializer):
-    hospital = SpecialHospitalSerializer(read_only=True)
-    category_name = serializers.CharField(source='category.name', read_only=True)
+    hospital = PopularServiceHospitalSerializer(read_only=True)
+    subcategory_name = serializers.CharField(source='subcategory.name', read_only=True)
 
     class Meta:
         model = SpecialDoctor
-        fields = ['id', 'name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital', 'category_name', 'doctor_details', 'doctor_sedule', 'contact_details']
+        fields = ['id', 'name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital', 'subcategory_name', 'doctor_details', 'doctor_sedule', 'contact_details']
 
 class SpecialPaymentSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,9 +1,7 @@
 from rest_framework import generics, filters
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import SpecialCategory, SpecialHospital, SpecialDoctor, SpecialBooking, SpecialPayment
+from .models import SpecialDoctor, SpecialBooking, SpecialPayment
 from .serializers import (
-    SpecialCategorySerializer, 
-    SpecialHospitalSerializer, 
     SpecialDoctorListSerializer, 
     SpecialDoctorDetailSerializer,
     SpecialBookingCreateSerializer,
@@ -11,19 +9,11 @@ from .serializers import (
     SpecialPaymentSerializer
 )
 
-class SpecialCategoryListView(generics.ListAPIView):
-    queryset = SpecialCategory.objects.all()
-    serializer_class = SpecialCategorySerializer
-
-class SpecialHospitalListView(generics.ListAPIView):
-    queryset = SpecialHospital.objects.all()
-    serializer_class = SpecialHospitalSerializer
-
 class SpecialDoctorListView(generics.ListAPIView):
-    queryset = SpecialDoctor.objects.all()
+    queryset = SpecialDoctor.objects.select_related('hospital', 'subcategory__category').all()
     serializer_class = SpecialDoctorListSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['category', 'hospital']
+    filterset_fields = ['subcategory', 'subcategory__category', 'hospital']
     search_fields = ['name', 'designation']
     ordering_fields = ['years_of_experience', 'doctor_fees']
 

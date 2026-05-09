@@ -1,7 +1,5 @@
 from django.urls import path
 from .views import (
-    SpecialCategoryListView, 
-    SpecialHospitalListView, 
     SpecialDoctorListView, 
     SpecialDoctorDetailView,
     SpecialBookingCreateView,
@@ -10,8 +8,6 @@ from .views import (
 )
 
 urlpatterns = [
-    path('categories/', SpecialCategoryListView.as_view(), name='special-category-list'),
-    path('hospitals/', SpecialHospitalListView.as_view(), name='special-hospital-list'),
     path('doctors/', SpecialDoctorListView.as_view(), name='specialdoctor-list'),
     path('doctors/<int:pk>/', SpecialDoctorDetailView.as_view(), name='specialdoctor-detail'),
     path('bookings/', SpecialBookingListView.as_view(), name='special-booking-list'),

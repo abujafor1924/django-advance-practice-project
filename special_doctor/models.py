@@ -1,22 +1,5 @@
 from django.db import models
-
-class SpecialCategory(models.Model):
-    name = models.CharField(max_length=255)
-    icon = models.ImageField(upload_to='special_category_icons/', null=True, blank=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = "Special Categories"
-
-class SpecialHospital(models.Model):
-    name = models.CharField(max_length=255)
-    address = models.TextField(null=True, blank=True)
-    contact_details = models.TextField(null=True, blank=True)
-
-    def __str__(self):
-        return self.name
+from popular_service.models import Hospital, SubCategory
 
 class SpecialDoctor(models.Model):
     name = models.CharField(max_length=255)
@@ -24,8 +7,9 @@ class SpecialDoctor(models.Model):
     designation = models.CharField(max_length=255)
     years_of_experience = models.PositiveIntegerField(default=0, null=True, blank=True)
     doctor_fees = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
-    hospital = models.ForeignKey(SpecialHospital, related_name='doctors', on_delete=models.CASCADE)
-    category = models.ForeignKey(SpecialCategory, related_name='doctors', on_delete=models.CASCADE)
+    hospital = models.ForeignKey(Hospital, related_name='specialist_doctors', on_delete=models.CASCADE)
+    subcategory = models.ForeignKey(SubCategory, related_name='specialist_doctors', on_delete=models.CASCADE)
+
     doctor_details = models.TextField(null=True, blank=True)
     doctor_sedule = models.TextField(null=True, blank=True)
     contact_details = models.TextField(null=True, blank=True)

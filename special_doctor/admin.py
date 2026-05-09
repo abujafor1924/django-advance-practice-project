@@ -1,20 +1,10 @@
 from django.contrib import admin
-from .models import SpecialCategory, SpecialHospital, SpecialDoctor, SpecialBooking, SpecialPayment
-
-@admin.register(SpecialCategory)
-class SpecialCategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-    search_fields = ('name',)
-
-@admin.register(SpecialHospital)
-class SpecialHospitalAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'address')
-    search_fields = ('name', 'address')
+from .models import SpecialDoctor, SpecialBooking, SpecialPayment
 
 @admin.register(SpecialDoctor)
 class SpecialDoctorAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'designation', 'hospital', 'category')
-    list_filter = ('hospital', 'category')
+    list_display = ('id', 'name', 'designation', 'hospital', 'subcategory')
+    list_filter = ('hospital', 'subcategory')
     search_fields = ('name', 'designation')
 
 @admin.register(SpecialBooking)

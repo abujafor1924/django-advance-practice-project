@@ -1,26 +1,27 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-from ..models import SpecialCategory, SpecialHospital, SpecialDoctor, SpecialBooking, SpecialPayment
+from popular_service.models import Hospital, SubCategory, ServiceCategory
+from ..models import SpecialDoctor, SpecialBooking, SpecialPayment
 
 class SpecialDoctorViewSetTest(APITestCase):
     def setUp(self):
-        self.category = SpecialCategory.objects.create(name="Cardiology")
-        self.hospital = SpecialHospital.objects.create(name="City Hospital", address="123 Main St")
+        self.service_category = ServiceCategory.objects.create(name="Health")
+        self.subcategory = SubCategory.objects.create(name="Cardiology", category=self.service_category)
+        self.hospital = Hospital.objects.create(name="City Hospital", address="123 Main St")
         self.doctor = SpecialDoctor.objects.create(
             name="Dr. Smith",
             designation="Senior Cardiologist",
             years_of_experience=10,
             doctor_fees=500.00,
             hospital=self.hospital,
-            category=self.category
+            subcategory=self.subcategory
         )
 
     def test_get_special_doctor_list(self):
         url = reverse('specialdoctor-list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        # Check if one doctor is returned
         self.assertEqual(len(response.data['results']), 1)
 
     def test_get_special_doctor_detail(self):
@@ -31,26 +32,27 @@ class SpecialDoctorViewSetTest(APITestCase):
 
     def test_filter_doctors_by_category(self):
         url = reverse('specialdoctor-list')
-        response = self.client.get(url, {'category': self.category.id})
+        response = self.client.get(url, {'subcategory': self.subcategory.id})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['results']), 1)
 
-        other_category = SpecialCategory.objects.create(name="Dermatology")
-        response = self.client.get(url, {'category': other_category.id})
+        other_subcategory = SubCategory.objects.create(name="Dermatology", category=self.service_category)
+        response = self.client.get(url, {'subcategory': other_subcategory.id})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['results']), 0)
 
 class SpecialBookingViewSetTest(APITestCase):
     def setUp(self):
-        self.category = SpecialCategory.objects.create(name="Cardiology")
-        self.hospital = SpecialHospital.objects.create(name="City Hospital", address="123 Main St")
+        self.service_category = ServiceCategory.objects.create(name="Health")
+        self.subcategory = SubCategory.objects.create(name="Cardiology", category=self.service_category)
+        self.hospital = Hospital.objects.create(name="City Hospital", address="123 Main St")
         self.doctor = SpecialDoctor.objects.create(
             name="Dr. Smith",
             designation="Senior Cardiologist",
             years_of_experience=10,
             doctor_fees=500.00,
             hospital=self.hospital,
-            category=self.category
+            subcategory=self.subcategory
         )
         self.booking_data = {
             'doctor': self.doctor.id,
@@ -75,15 +77,16 @@ class SpecialBookingViewSetTest(APITestCase):
 
 class SpecialPaymentViewSetTest(APITestCase):
     def setUp(self):
-        self.category = SpecialCategory.objects.create(name="Cardiology")
-        self.hospital = SpecialHospital.objects.create(name="City Hospital", address="123 Main St")
+        self.service_category = ServiceCategory.objects.create(name="Health")
+        self.subcategory = SubCategory.objects.create(name="Cardiology", category=self.service_category)
+        self.hospital = Hospital.objects.create(name="City Hospital", address="123 Main St")
         self.doctor = SpecialDoctor.objects.create(
             name="Dr. Smith",
             designation="Senior Cardiologist",
             years_of_experience=10,
             doctor_fees=500.00,
             hospital=self.hospital,
-            category=self.category
+            subcategory=self.subcategory
         )
         self.booking = SpecialBooking.objects.create(
             doctor=self.doctor,
