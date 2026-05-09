@@ -1,11 +1,11 @@
-{% extends 'popular_service/dashboard/base.html' %}
+{% extends 'special_doctor/dashboard/base.html' %}
 
-{% block title %}Doctor List{% endblock %}
+{% block title %}Special Doctor List{% endblock %}
 
 {% block content %}
 <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Popular Doctors</h1>
-    <a href="{% url 'doctor-add' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Add New Doctor</a>
+    <h1 class="text-2xl font-bold text-gray-800">Special Doctors</h1>
+    <a href="{% url 'special-doctor-add' %}" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">Add New Doctor</a>
 </div>
 
 <div class="bg-white shadow-md rounded-lg overflow-hidden">
@@ -44,7 +44,7 @@
                     <p class="text-gray-900 whitespace-no-wrap">{{ doctor.hospital.name }}</p>
                 </td>
                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <a href="{% url 'doctor-edit' doctor.id %}" class="bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200 transition">Edit</a>
+                    <a href="{% url 'special-doctor-edit' doctor.id %}" class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded hover:bg-indigo-200 transition">Edit</a>
                 </td>
             </tr>
             {% empty %}

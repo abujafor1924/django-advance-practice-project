@@ -8,6 +8,10 @@ from .serializers import (
     SpecialBookingListSerializer,
     SpecialPaymentSerializer
 )
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.contrib import messages
+from .forms import SpecialDoctorForm
 
 class SpecialDoctorListView(generics.ListAPIView):
     queryset = SpecialDoctor.objects.select_related('hospital', 'subcategory__category').all()
@@ -35,3 +39,37 @@ class SpecialBookingListView(generics.ListAPIView):
 class SpecialPaymentCreateView(generics.CreateAPIView):
     queryset = SpecialPayment.objects.all()
     serializer_class = SpecialPaymentSerializer
+
+# Custom Dashboard Views (Tailwind CSS)
+class SpecialDoctorDashboardListView(ListView):
+    model = SpecialDoctor
+    template_name = 'special_doctor/dashboard/doctor_list.html'
+    context_object_name = 'doctors'
+
+class SpecialDoctorCreateView(CreateView):
+    model = SpecialDoctor
+    form_class = SpecialDoctorForm
+    template_name = 'special_doctor/dashboard/doctor_form.html'
+    success_url = reverse_lazy('special-doctor-dashboard')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Special Doctor added successfully!")
+        return super().form_valid(form)
+
+class SpecialDoctorUpdateView(UpdateView):
+    model = SpecialDoctor
+    form_class = SpecialDoctorForm
+    template_name = 'special_doctor/dashboard/doctor_form.html'
+    success_url = reverse_lazy('special-doctor-dashboard')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Special Doctor updated successfully!")
+        return super().form_valid(form)
+
+class SpecialDoctorDeleteView(DeleteView):
+    model = SpecialDoctor
+    success_url = reverse_lazy('special-doctor-dashboard')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "Special Doctor deleted successfully!")
+        return super().delete(request, *args, **kwargs)
