@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Doctor Dashboard{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <nav class="bg-blue-600 p-4 text-white shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="{% url 'doctor-dashboard' %}" class="text-xl font-bold">Bellevie Doctor Admin</a>
+            <div>
+                <a href="{% url 'doctor-dashboard' %}" class="px-4 hover:underline">List</a>
+                <a href="{% url 'doctor-add' %}" class="px-4 hover:underline">Add Doctor</a>
+            </div>
+        </div>
+    </nav>
+    <main class="container mx-auto mt-8 p-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="mb-4 p-4 rounded {% if message.tags == 'success' %}bg-green-200 text-green-800{% else %}bg-red-200 text-red-800{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

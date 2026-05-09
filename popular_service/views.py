@@ -7,7 +7,12 @@ from .serializers import (
     DoctorListSerializer, DoctorDetailSerializer, BookingCreateSerializer,
     BookingListSerializer, PaymentSerializer
 )
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.contrib import messages
+from .forms import DoctorForm
 
+# REST API Views
 class ServiceCategoryListView(generics.ListAPIView):
     queryset = ServiceCategory.objects.all()
     serializer_class = ServiceCategorySerializer
@@ -52,3 +57,37 @@ class BookingCreateView(generics.CreateAPIView):
 class PaymentCreateView(generics.CreateAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
+
+# Custom Dashboard Views (Tailwind CSS)
+class DoctorDashboardListView(ListView):
+    model = Doctor
+    template_name = 'popular_service/dashboard/doctor_list.html'
+    context_object_name = 'doctors'
+
+class DoctorCreateView(CreateView):
+    model = Doctor
+    form_class = DoctorForm
+    template_name = 'popular_service/dashboard/doctor_form.html'
+    success_url = reverse_lazy('doctor-dashboard')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Doctor added successfully!")
+        return super().form_valid(form)
+
+class DoctorUpdateView(UpdateView):
+    model = Doctor
+    form_class = DoctorForm
+    template_name = 'popular_service/dashboard/doctor_form.html'
+    success_url = reverse_lazy('doctor-dashboard')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Doctor updated successfully!")
+        return super().form_valid(form)
+
+class DoctorDeleteView(DeleteView):
+    model = Doctor
+    success_url = reverse_lazy('doctor-dashboard')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "Doctor deleted successfully!")
+        return super().delete(request, *args, **kwargs)
