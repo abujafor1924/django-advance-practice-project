@@ -13,7 +13,7 @@
             <div class="flex items-center space-x-4">
                 <a href="{% url 'doctor-dashboard' %}" class="hover:underline">Popular Doctors</a>
                 <a href="{% url 'special-doctor-dashboard' %}" class="hover:underline">Special Doctors</a>
-                <a href="{% url 'top-doctor-dashboard' %}" class="hover:underline {% if request.resolver_match.url_name == 'top-doctor-dashboard' %}font-bold border-b-2{% endif %}">Top Doctors</a>
+                <a href="{% url 'top-doctor-dashboard' %}" class="hover:underline {% if request.resolver_match.url_name == 'top-doctor-dashboard' %}font-bold border-b-2{% endif %}">General Physician Doctors</a>
                 <div class="border-l border-emerald-400 h-6 mx-2"></div>
                
             </div>
