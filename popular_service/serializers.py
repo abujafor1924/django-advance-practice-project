@@ -22,7 +22,7 @@ class DoctorListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Doctor
-        fields = ['id', 'name', 'image', 'designation', 'hospital_name', 'subcategory_name']
+        fields = ['id', 'name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital_name', 'subcategory_name']
 
 class DoctorDetailSerializer(serializers.ModelSerializer):
     hospital = PopularServiceHospitalSerializer(read_only=True)
@@ -30,7 +30,7 @@ class DoctorDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Doctor
-        fields = ['id', 'name', 'image', 'designation', 'hospital', 'subcategory_name', 'doctor_details', 'doctor_sedule', 'contact_details']
+        fields = ['id', 'name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital', 'subcategory_name', 'doctor_details', 'doctor_sedule', 'contact_details']
 
 class BookingCreateSerializer(serializers.ModelSerializer):
     class Meta:

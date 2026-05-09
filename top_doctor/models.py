@@ -6,6 +6,7 @@ class TopDoctor(models.Model):
     image = models.ImageField(upload_to='top_doctor_images/')
     designations = models.CharField(max_length=255)
     experience = models.CharField(max_length=100)
+    fees=models.DecimalField(max_digits=10, decimal_places=2, default=0.00, help_text="Consultation fees for the doctor",null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

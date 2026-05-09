@@ -18,10 +18,10 @@ class HospitalAdmin(admin.ModelAdmin):
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'designation', 'hospital', 'subcategory')
+    list_display = ('id', 'name', 'designation', 'years_of_experience', 'doctor_fees', 'hospital', 'subcategory')
     list_filter = ('hospital', 'subcategory')
     search_fields = ('name', 'designation')
-    fields = ('name', 'image', 'designation', 'hospital', 'subcategory', 'doctor_details', 'doctor_sedule', 'contact_details')
+    fields = ('name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital', 'subcategory', 'doctor_details', 'doctor_sedule', 'contact_details')
 
 class PaymentInline(admin.StackedInline):
     model = Payment
