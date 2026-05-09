@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Top Doctor Dashboard{% endblock %}</title>
+    <title>{% block title %}General Physician Dashboard{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 font-sans">
     <nav class="bg-emerald-600 p-4 text-white shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="{% url 'top-doctor-dashboard' %}" class="text-xl font-bold">Bellevie Top Doctor Admin</a>
+            <a href="{% url 'top-doctor-dashboard' %}" class="text-xl font-bold">Bellevie General Physician Doctor Admin</a>
             <div class="flex items-center space-x-4">
                 <a href="{% url 'doctor-dashboard' %}" class="hover:underline">Popular Doctors</a>
                 <a href="{% url 'special-doctor-dashboard' %}" class="hover:underline">Special Doctors</a>
                 <a href="{% url 'top-doctor-dashboard' %}" class="hover:underline {% if request.resolver_match.url_name == 'top-doctor-dashboard' %}font-bold border-b-2{% endif %}">Top Doctors</a>
                 <div class="border-l border-emerald-400 h-6 mx-2"></div>
-                <a href="{% url 'top-doctor-add' %}" class="bg-emerald-500 px-3 py-1 rounded hover:bg-emerald-400">Add New</a>
+               
             </div>
         </div>
     </nav>
