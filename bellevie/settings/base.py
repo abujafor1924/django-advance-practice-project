@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'other_medical_service',
     'medical_accessories',
     'top_doctor',
+    'special_doctor',
 ]
 
 MIDDLEWARE = [
