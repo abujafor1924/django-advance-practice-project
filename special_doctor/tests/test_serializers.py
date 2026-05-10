@@ -12,7 +12,7 @@ class SpecialDoctorSerializerTest(TestCase):
             name="Dr. Smith",
             designation="Senior Cardiologist",
             years_of_experience=10,
-            doctor_fees=500.00,
+            doctor_fees="500 BDT",
             hospital=self.hospital,
             subcategory=self.subcategory
         )

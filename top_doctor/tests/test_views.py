@@ -12,8 +12,8 @@ class TopDoctorViewsTest(APITestCase):
         self.user = User.objects.create_user(phone_number="01700000000", password="password123")
         self.doctor = TopDoctor.objects.create(
             name="Dr. Smith",
-            designations="Cardiologist",
-            experience="10 years"
+            designation="Cardiologist",
+            years_of_experience=10
         )
         self.doctor_list_url = reverse('top-doctor-list')
         self.booking_create_url = reverse('top-doctor-booking-create')

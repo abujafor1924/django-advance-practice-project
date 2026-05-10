@@ -13,8 +13,8 @@ class TopDoctorSerializerTest(TestCase):
         self.image = SimpleUploadedFile('test_image.gif', image_content, content_type='image/gif')
         self.doctor_data = {
             "name": "Dr. Smith",
-            "designations": "Cardiologist",
-            "experience": "10 years",
+            "designation": "Cardiologist",
+            "years_of_experience": 10,
             "image": self.image
         }
 
@@ -29,8 +29,8 @@ class BookingSerializerTest(TestCase):
         self.user = User.objects.create_user(phone_number="01700000000", password="password123")
         self.doctor = TopDoctor.objects.create(
             name="Dr. Smith",
-            designations="Cardiologist",
-            experience="10 years"
+            designation="Cardiologist",
+            years_of_experience=10
         )
         self.booking_data = {
             "doctor": self.doctor.id,
@@ -49,8 +49,8 @@ class PaymentSerializerTest(TestCase):
         self.user = User.objects.create_user(phone_number="01700000000", password="password123")
         self.doctor = TopDoctor.objects.create(
             name="Dr. Smith",
-            designations="Cardiologist",
-            experience="10 years"
+            designation="Cardiologist",
+            years_of_experience=10
         )
         self.booking = Booking.objects.create(
             doctor=self.doctor,

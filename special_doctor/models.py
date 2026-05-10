@@ -6,7 +6,7 @@ class SpecialDoctor(models.Model):
     image = models.ImageField(upload_to='doctor_images/')
     designation = models.CharField(max_length=255)
     years_of_experience = models.PositiveIntegerField(default=0, null=True, blank=True)
-    doctor_fees = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    doctor_fees = models.CharField(max_length=255, null=True, blank=True)
     hospital = models.ForeignKey(Hospital, related_name='specialist_doctors', on_delete=models.CASCADE)
     subcategory = models.ForeignKey(SubCategory, related_name='specialist_doctors', on_delete=models.CASCADE)
 

@@ -9,8 +9,8 @@ class TopDoctorModelTest(TestCase):
     def setUp(self):
         self.doctor = TopDoctor.objects.create(
             name="Dr. Smith",
-            designations="Cardiologist",
-            experience="10 years"
+            designation="Cardiologist",
+            years_of_experience=10
         )
 
     def test_top_doctor_creation(self):
@@ -22,8 +22,8 @@ class BookingModelTest(TestCase):
         self.user = User.objects.create_user(phone_number="01700000000", password="password123")
         self.doctor = TopDoctor.objects.create(
             name="Dr. Smith",
-            designations="Cardiologist",
-            experience="10 years"
+            designation="Cardiologist",
+            years_of_experience=10
         )
         self.booking = Booking.objects.create(
             doctor=self.doctor,
@@ -43,8 +43,8 @@ class PaymentModelTest(TestCase):
         self.user = User.objects.create_user(phone_number="01700000000", password="password123")
         self.doctor = TopDoctor.objects.create(
             name="Dr. Smith",
-            designations="Cardiologist",
-            experience="10 years"
+            designation="Cardiologist",
+            years_of_experience=10
         )
         self.booking = Booking.objects.create(
             doctor=self.doctor,
