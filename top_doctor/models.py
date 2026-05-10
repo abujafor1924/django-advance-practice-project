@@ -3,10 +3,15 @@ from django.conf import settings
 
 class TopDoctor(models.Model):
     name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='top_doctor_images/')
-    designations = models.CharField(max_length=255)
-    experience = models.CharField(max_length=100)
-    fees=models.DecimalField(max_digits=10, decimal_places=2, default=0.00, help_text="Consultation fees for the doctor",null=True, blank=True)
+    image = models.ImageField(upload_to='doctor_images/')
+    designation = models.CharField(max_length=255)
+    years_of_experience = models.PositiveIntegerField(default=0,null=True, blank=True)
+    doctor_fees = models.DecimalField(max_digits=10, decimal_places=2, default=0.00,null=True, blank=True)
+    hospital = models.ForeignKey('popular_service.Hospital', related_name='top_doctors', on_delete=models.CASCADE, null=True, blank=True)
+    subcategory = models.ForeignKey('popular_service.SubCategory', related_name='top_doctors', on_delete=models.CASCADE, null=True, blank=True)
+    doctor_details = models.TextField(null=True, blank=True)
+    doctor_sedule = models.TextField(null=True, blank=True)
+    contact_details = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
