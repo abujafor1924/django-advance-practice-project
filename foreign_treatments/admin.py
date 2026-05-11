@@ -29,7 +29,7 @@ class HospitalAdmin(admin.ModelAdmin):
 
 @admin.register(HospitalDetail)
 class HospitalDetailAdmin(admin.ModelAdmin):
-    list_display = ('hospital', 'created_at')
+    list_display = ('id', 'hospital', 'created_at',)
     search_fields = ('hospital__name',)
     can_delete = False
     verbose_name_plural = 'Hospital Details'
