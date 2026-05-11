@@ -8,7 +8,7 @@ class HospitalDetailInline(admin.StackedInline):
 
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'created_at')
+    list_display = ('id', 'name', 'created_at')
     search_fields = ('name',)
     list_filter = ('created_at',)
     can_delete = False
@@ -18,7 +18,7 @@ class CountryAdmin(admin.ModelAdmin):
 
 @admin.register(Hospital)
 class HospitalAdmin(admin.ModelAdmin):
-    list_display = ('name', 'country', 'speciality', 'created_at')
+    list_display = ('id', 'name', 'country', 'speciality', 'created_at')
     list_filter = ('country', 'created_at')
     search_fields = ('name', 'country__name')
     inlines = [HospitalDetailInline]
