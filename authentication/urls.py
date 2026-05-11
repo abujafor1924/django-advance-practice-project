@@ -3,7 +3,7 @@ from .views import (
     RegistrationView, LoginView,
     ProfileView, ResetPasswordView, LogoutView,
     UserAppointmentListView, AppointmentCreateView,
-    UserServiceRecordView
+    UserServiceRecordView, PaymentCreateView
 )
 
 urlpatterns = [
