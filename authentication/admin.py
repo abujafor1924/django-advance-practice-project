@@ -2,10 +2,18 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import User, Appointment, Payment
 
+class AppointmentInline(admin.TabularInline):
+    model = Appointment
+    extra = 0
+    fields = ('patient_name', 'appointment_date', 'appointment_time', 'status', 'service_type')
+    readonly_fields = ('patient_name', 'appointment_date', 'appointment_time', 'service_type')
+    show_change_link = True
+
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
     list_display = ('phone_number', 'name', 'email', 'district', 'is_verified', 'is_staff', 'is_active')
     list_filter = ('district', 'is_verified', 'is_staff', 'is_superuser', 'is_active')
+    inlines = [AppointmentInline]
     
     fieldsets = (
         (None, {'fields': ('phone_number', 'password')}),
@@ -32,11 +40,17 @@ class PaymentInline(admin.StackedInline):
 
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'patient_name', 'patient_phone', 'service_type', 'appointment_date', 'appointment_time', 'status', 'user')
-    list_filter = ('status', 'service_type', 'appointment_date')
+    list_display = ('id', 'patient_name', 'patient_phone', 'get_doctor', 'service_type', 'appointment_date', 'appointment_time', 'status', 'user')
+    list_filter = ('status', 'service_type', 'appointment_date', 'created_at')
     search_fields = ('patient_name', 'patient_phone', 'user__phone_number')
+    list_editable = ('status',)
+    date_hierarchy = 'appointment_date'
     inlines = [PaymentInline]
-    readonly_fields = ('created_at',)
+    readonly_fields = ('service_type', 'created_at')
+
+    def get_doctor(self, obj):
+        return str(obj.service_object)
+    get_doctor.short_description = 'Doctor'
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):

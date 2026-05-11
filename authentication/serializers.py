@@ -87,24 +87,30 @@ class ServiceObjectSerializer(serializers.Serializer):
     def to_representation(self, instance):
         if isinstance(instance, Doctor):
             return {
+                'id': instance.id,
                 'type': 'Popular Doctor',
                 'name': instance.name,
                 'designation': instance.designation,
                 'hospital': instance.hospital.name if instance.hospital else None,
+                'subcategory_id': instance.subcategory.id if instance.subcategory else None,
             }
         elif isinstance(instance, SpecialDoctor):
             return {
+                'id': instance.id,
                 'type': 'Special Doctor',
                 'name': instance.name,
                 'designation': instance.designation,
                 'hospital': instance.hospital.name if instance.hospital else None,
+                'subcategory_id': instance.subcategory.id if instance.subcategory else None,
             }
         elif isinstance(instance, TopDoctor):
             return {
+                'id': instance.id,
                 'type': 'Top Doctor',
                 'name': instance.name,
                 'designation': instance.designation,
                 'hospital': instance.hospital.name if instance.hospital else None,
+                'subcategory_id': instance.subcategory.id if instance.subcategory else None,
             }
         return str(instance)
 
