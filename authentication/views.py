@@ -7,7 +7,7 @@ from .serializers import (
     UserRegistrationSerializer, LoginSerializer,
     ProfileSerializer, ResetPasswordSerializer,
     LogoutSerializer, AppointmentSerializer,
-    AppointmentCreateSerializer
+    AppointmentCreateSerializer, PaymentCreateSerializer
 )
 
 class RegistrationView(generics.CreateAPIView):
@@ -114,3 +114,10 @@ class UserServiceRecordView(generics.ListAPIView):
     def get_queryset(self):
         # Service records are essentially completed appointments
         return Appointment.objects.filter(user=self.request.user, status='completed')
+
+class PaymentCreateView(generics.CreateAPIView):
+    serializer_class = PaymentCreateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save()

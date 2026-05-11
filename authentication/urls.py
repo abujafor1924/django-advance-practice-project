@@ -18,4 +18,5 @@ urlpatterns = [
     path('appointments/', UserAppointmentListView.as_view(), name='user-appointments'),
     path('appointments/create/', AppointmentCreateView.as_view(), name='create-appointment'),
     path('service-records/', UserServiceRecordView.as_view(), name='service-records'),
+    path('payments/submit/', PaymentCreateView.as_view(), name='payment-submit'),
 ]

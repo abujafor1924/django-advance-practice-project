@@ -70,6 +70,19 @@ class PaymentSerializer(serializers.ModelSerializer):
         model = Payment
         fields = ['id', 'transaction_id', 'amount', 'method', 'status', 'created_at']
 
+class PaymentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = ['appointment', 'transaction_id', 'amount', 'method']
+
+    def validate_appointment(self, value):
+        user = self.context['request'].user
+        if value.user != user:
+            raise serializers.ValidationError("This appointment does not belong to you.")
+        if hasattr(value, 'payment'):
+            raise serializers.ValidationError("Payment has already been submitted for this appointment.")
+        return value
+
 class ServiceObjectSerializer(serializers.Serializer):
     def to_representation(self, instance):
         if isinstance(instance, Doctor):
