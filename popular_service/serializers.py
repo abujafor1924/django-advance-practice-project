@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ServiceCategory, SubCategory, Hospital, Doctor, Booking, Payment
+from .models import ServiceCategory, SubCategory, Hospital, Doctor
 
 class ServiceCategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,22 +31,3 @@ class DoctorDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Doctor
         fields = ['id', 'name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital', 'subcategory_name', 'doctor_details', 'doctor_sedule', 'contact_details']
-
-class BookingCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Booking
-        fields = ['doctor', 'patient_name', 'phone', 'date', 'time']
-
-class PaymentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Payment
-        fields = ['id', 'booking', 'transaction_id', 'payment_method', 'payment_status']
-        read_only_fields = ['payment_status']
-
-class BookingListSerializer(serializers.ModelSerializer):
-    doctor = DoctorListSerializer(read_only=True)
-    payment = PaymentSerializer(read_only=True)
-
-    class Meta:
-        model = Booking
-        fields = ['id', 'doctor', 'patient_name', 'phone', 'date', 'time', 'status', 'payment']

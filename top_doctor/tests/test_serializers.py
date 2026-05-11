@@ -1,11 +1,7 @@
 from django.test import TestCase
-from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
-from top_doctor.models import TopDoctor, Booking, Payment
-from top_doctor.serializers import TopDoctorSerializer, BookingSerializer, PaymentSerializer
-from datetime import date, time
-
-User = get_user_model()
+from top_doctor.models import TopDoctor
+from top_doctor.serializers import TopDoctorSerializer
 
 class TopDoctorSerializerTest(TestCase):
     def setUp(self):
@@ -20,53 +16,5 @@ class TopDoctorSerializerTest(TestCase):
 
     def test_top_doctor_serializer(self):
         serializer = TopDoctorSerializer(data=self.doctor_data)
-        if not serializer.is_valid():
-            print(serializer.errors)
         self.assertTrue(serializer.is_valid())
-
-class BookingSerializerTest(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(phone_number="01700000000", password="password123")
-        self.doctor = TopDoctor.objects.create(
-            name="Dr. Smith",
-            designation="Cardiologist",
-            years_of_experience=10
-        )
-        self.booking_data = {
-            "doctor": self.doctor.id,
-            "patient_name": "John Doe",
-            "patient_phone": "01800000000",
-            "appointment_date": str(date.today()),
-            "appointment_time": "10:00:00"
-        }
-
-    def test_booking_serializer(self):
-        serializer = BookingSerializer(data=self.booking_data)
-        self.assertTrue(serializer.is_valid())
-
-class PaymentSerializerTest(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(phone_number="01700000000", password="password123")
-        self.doctor = TopDoctor.objects.create(
-            name="Dr. Smith",
-            designation="Cardiologist",
-            years_of_experience=10
-        )
-        self.booking = Booking.objects.create(
-            doctor=self.doctor,
-            user=self.user,
-            patient_name="John Doe",
-            patient_phone="01800000000",
-            appointment_date=date.today(),
-            appointment_time=time(10, 0)
-        )
-        self.payment_data = {
-            "booking": self.booking.id,
-            "payment_method": "bkash",
-            "transaction_id": "TXN123456",
-            "amount": 500.00
-        }
-
-    def test_payment_serializer(self):
-        serializer = PaymentSerializer(data=self.payment_data)
-        self.assertTrue(serializer.is_valid())
+        self.assertEqual(serializer.data['name'], "Dr. Smith")

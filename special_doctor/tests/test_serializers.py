@@ -1,6 +1,6 @@
 from django.test import TestCase
 from popular_service.models import Hospital, SubCategory, ServiceCategory
-from ..models import SpecialDoctor, SpecialBooking, SpecialPayment
+from ..models import SpecialDoctor
 from ..serializers import SpecialDoctorListSerializer, SpecialDoctorDetailSerializer
 
 class SpecialDoctorSerializerTest(TestCase):

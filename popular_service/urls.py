@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     ServiceCategoryListView, SubCategoryListView, DoctorListView,
-    DoctorDetailView, BookingCreateView, PaymentCreateView,
+    DoctorDetailView,
     # Dashboard Views
     DoctorDashboardListView, DoctorCreateView, DoctorUpdateView, DoctorDeleteView
 )
@@ -14,10 +14,6 @@ urlpatterns = [
     # Doctor APIs
     path('doctors/', DoctorListView.as_view(), name='doctor-list'),
     path('doctors/<int:pk>/', DoctorDetailView.as_view(), name='doctor-detail'),
-
-    # Booking & Payment APIs
-    path('bookings/', BookingCreateView.as_view(), name='booking-create'),
-    path('payments/', PaymentCreateView.as_view(), name='payment-submit'),
 
     # Custom Dashboard URLs
     path('dashboard/', DoctorDashboardListView.as_view(), name='doctor-dashboard'),

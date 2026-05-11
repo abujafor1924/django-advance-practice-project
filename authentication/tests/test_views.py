@@ -74,3 +74,15 @@ class AuthenticationViewsTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         user = User.objects.get(phone_number="+8801712345679")
         self.assertTrue(user.check_password("newpassword123"))
+
+    def test_user_appointment_list_view(self):
+        url = reverse('user-appointments')
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.access_token)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_service_record_view(self):
+        url = reverse('service-records')
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.access_token)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

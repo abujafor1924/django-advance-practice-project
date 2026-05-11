@@ -2,11 +2,12 @@ from rest_framework import status, generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import User
+from .models import User, Appointment
 from .serializers import (
     UserRegistrationSerializer, LoginSerializer,
     ProfileSerializer, ResetPasswordSerializer,
-    LogoutSerializer
+    LogoutSerializer, AppointmentSerializer,
+    AppointmentCreateSerializer
 )
 
 class RegistrationView(generics.CreateAPIView):
@@ -83,3 +84,33 @@ class LogoutView(APIView):
             return Response({"message": "Successfully logged out."}, status=status.HTTP_205_RESET_CONTENT)
         except Exception:
             return Response({"error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
+
+class UserAppointmentListView(generics.ListAPIView):
+    serializer_class = AppointmentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Appointment.objects.filter(user=self.request.user)
+
+class AppointmentCreateView(generics.CreateAPIView):
+    serializer_class = AppointmentCreateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        appointment = serializer.save()
+        
+        # Return the full appointment details
+        return Response(
+            AppointmentSerializer(appointment).data,
+            status=status.HTTP_201_CREATED
+        )
+
+class UserServiceRecordView(generics.ListAPIView):
+    serializer_class = AppointmentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Service records are essentially completed appointments
+        return Appointment.objects.filter(user=self.request.user, status='completed')

@@ -44,38 +44,3 @@ class Doctor(models.Model):
 
     class Meta:
         ordering = ['id']
-
-class Booking(models.Model):
-    STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('confirmed', 'Confirmed'),
-        ('cancelled', 'Cancelled'),
-    ]
-    doctor = models.ForeignKey(Doctor, related_name='bookings', on_delete=models.CASCADE)
-    patient_name = models.CharField(max_length=255)
-    phone = models.CharField(max_length=20)
-    date = models.DateField()
-    time = models.TimeField()
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-
-    def __str__(self):
-        return f"Booking for {self.patient_name} with {self.doctor.name}"
-
-class Payment(models.Model):
-    METHOD_CHOICES = [
-        ('bkash', 'bKash'),
-        ('nagad', 'Nagad'),
-        ('manual', 'Manual'),
-    ]
-    STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('paid', 'Paid'),
-        ('failed', 'Failed'),
-    ]
-    booking = models.OneToOneField(Booking, related_name='payment', on_delete=models.CASCADE)
-    transaction_id = models.CharField(max_length=255)
-    payment_method = models.CharField(max_length=20, choices=METHOD_CHOICES)
-    payment_status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-
-    def __str__(self):
-        return f"Payment for Booking {self.booking.id} - {self.payment_status}"

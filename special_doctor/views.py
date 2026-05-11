@@ -1,12 +1,9 @@
 from rest_framework import generics, filters
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import SpecialDoctor, SpecialBooking, SpecialPayment
+from .models import SpecialDoctor
 from .serializers import (
     SpecialDoctorListSerializer, 
-    SpecialDoctorDetailSerializer,
-    SpecialBookingCreateSerializer,
-    SpecialBookingListSerializer,
-    SpecialPaymentSerializer
+    SpecialDoctorDetailSerializer
 )
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -24,21 +21,6 @@ class SpecialDoctorListView(generics.ListAPIView):
 class SpecialDoctorDetailView(generics.RetrieveAPIView):
     queryset = SpecialDoctor.objects.all()
     serializer_class = SpecialDoctorDetailSerializer
-
-class SpecialBookingCreateView(generics.CreateAPIView):
-    queryset = SpecialBooking.objects.all()
-    serializer_class = SpecialBookingCreateSerializer
-
-class SpecialBookingListView(generics.ListAPIView):
-    queryset = SpecialBooking.objects.all()
-    serializer_class = SpecialBookingListSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['status']
-    ordering_fields = ['created_at']
-
-class SpecialPaymentCreateView(generics.CreateAPIView):
-    queryset = SpecialPayment.objects.all()
-    serializer_class = SpecialPaymentSerializer
 
 # Custom Dashboard Views (Tailwind CSS)
 class SpecialDoctorDashboardListView(ListView):

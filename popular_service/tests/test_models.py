@@ -1,8 +1,11 @@
 from django.test import TestCase
-from popular_service.models import ServiceCategory, SubCategory, Hospital, Doctor, Booking, Payment
+from popular_service.models import ServiceCategory, SubCategory, Hospital, Doctor
+from authentication.models import Appointment, Payment, User
+from django.contrib.contenttypes.models import ContentType
 
 class ModelTestCase(TestCase):
     def setUp(self):
+        self.user = User.objects.create_user(phone_number="01711111111", password="password123")
         self.category = ServiceCategory.objects.create(name="Cardiology")
         self.subcategory = SubCategory.objects.create(category=self.category, name="Heart Specialist")
         self.hospital = Hospital.objects.create(
@@ -30,28 +33,34 @@ class ModelTestCase(TestCase):
     def test_doctor_creation(self):
         self.assertEqual(str(self.doctor), "Dr. Smith")
 
-    def test_booking_creation(self):
-        booking = Booking.objects.create(
-            doctor=self.doctor,
+    def test_appointment_creation(self):
+        appointment = Appointment.objects.create(
+            user=self.user,
+            content_type=ContentType.objects.get_for_model(Doctor),
+            object_id=self.doctor.id,
             patient_name="John Doe",
-            phone="01911111111",
-            date="2026-05-10",
-            time="10:00:00"
+            patient_phone="01911111111",
+            appointment_date="2026-05-10",
+            appointment_time="10:00:00"
         )
-        self.assertEqual(str(booking), f"Booking for John Doe with {self.doctor.name}")
-        self.assertEqual(booking.status, "pending")
+        self.assertEqual(appointment.service_type, "popular")
+        self.assertEqual(str(appointment), f"Popular Appointment for John Doe with {self.doctor.name}")
+        self.assertEqual(appointment.status, "pending")
 
     def test_payment_creation(self):
-        booking = Booking.objects.create(
-            doctor=self.doctor,
+        appointment = Appointment.objects.create(
+            user=self.user,
+            content_type=ContentType.objects.get_for_model(Doctor),
+            object_id=self.doctor.id,
             patient_name="John Doe",
-            phone="01911111111",
-            date="2026-05-10",
-            time="10:00:00"
+            patient_phone="01911111111",
+            appointment_date="2026-05-10",
+            appointment_time="10:00:00"
         )
         payment = Payment.objects.create(
-            booking=booking,
+            appointment=appointment,
             transaction_id="TXN12345",
-            payment_method="bkash"
+            method="bkash",
+            amount=500.00
         )
-        self.assertEqual(str(payment), f"Payment for Booking {booking.id} - pending")
+        self.assertEqual(str(payment), f"Payment for Appointment {appointment.id} - pending")

@@ -1,11 +1,10 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import ServiceCategory, SubCategory, Hospital, Doctor, Booking, Payment
+from .models import ServiceCategory, SubCategory, Hospital, Doctor
 from .serializers import (
     ServiceCategorySerializer, SubCategorySerializer,
-    DoctorListSerializer, DoctorDetailSerializer, BookingCreateSerializer,
-    BookingListSerializer, PaymentSerializer
+    DoctorListSerializer, DoctorDetailSerializer
 )
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -34,29 +33,6 @@ class DoctorListView(generics.ListAPIView):
 class DoctorDetailView(generics.RetrieveAPIView):
     queryset = Doctor.objects.select_related('hospital', 'subcategory').all()
     serializer_class = DoctorDetailSerializer
-
-class BookingCreateView(generics.CreateAPIView):
-    queryset = Booking.objects.all()
-    serializer_class = BookingCreateSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        booking = serializer.save()
-        
-        return Response({
-            "booking_id": booking.id,
-            "message": "Booking created successfully. Please complete the manual payment to confirm.",
-            "payment_instructions": {
-                "bkash": "01XXXXXXXXX",
-                "nagad": "01XXXXXXXXX",
-                "manual_info": "Please submit your transaction ID via the Payment API."
-            }
-        }, status=status.HTTP_201_CREATED)
-
-class PaymentCreateView(generics.CreateAPIView):
-    queryset = Payment.objects.all()
-    serializer_class = PaymentSerializer
 
 # Custom Dashboard Views (Tailwind CSS)
 class DoctorDashboardListView(ListView):
