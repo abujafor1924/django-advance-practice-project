@@ -24,8 +24,7 @@ class TopDoctorViewsTest(APITestCase):
     def test_create_appointment_top_doctor(self):
         self.client.force_authenticate(user=self.user)
         data = {
-            "service_type": "top",
-            "service_id": self.doctor.id,
+            "doctor_id": self.doctor.id,
             "patient_name": "John Doe",
             "patient_phone": "01800000000",
             "appointment_date": str(date.today()),

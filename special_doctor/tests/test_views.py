@@ -36,8 +36,7 @@ class SpecialDoctorViewSetTest(APITestCase):
         self.client.force_authenticate(user=self.user)
         url = reverse('create-appointment')
         data = {
-            "service_type": "special",
-            "service_id": self.doctor.id,
+            "doctor_id": self.doctor.id,
             "patient_name": "Jane Doe",
             "patient_phone": "01800000000",
             "appointment_date": "2026-05-15",

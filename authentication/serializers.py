@@ -120,44 +120,46 @@ class AppointmentSerializer(serializers.ModelSerializer):
         ]
 
 class AppointmentCreateSerializer(serializers.ModelSerializer):
-    service_type = serializers.ChoiceField(choices=['popular', 'special', 'top'], write_only=True)
-    service_id = serializers.IntegerField(write_only=True)
+    doctor_id = serializers.IntegerField(write_only=True)
     
     class Meta:
         model = Appointment
         fields = [
             'id', 'patient_name', 'patient_phone', 'appointment_date', 
-            'appointment_time', 'service_type', 'service_id'
+            'appointment_time', 'doctor_id'
         ]
         read_only_fields = ['id']
 
     def create(self, validated_data):
-        service_type = validated_data.pop('service_type')
-        service_id = validated_data.pop('service_id')
+        doctor_id = validated_data.pop('doctor_id')
         user = self.context['request'].user
         
         from django.contrib.contenttypes.models import ContentType
         
-        if service_type == 'popular':
+        # Automatic Detection Logic
+        # 1. Try Popular Doctor
+        doctor = Doctor.objects.filter(id=doctor_id).first()
+        if doctor:
             model = Doctor
-        elif service_type == 'special':
-            model = SpecialDoctor
-        elif service_type == 'top':
-            model = TopDoctor
         else:
-            raise serializers.ValidationError("Invalid service type.")
+            # 2. Try Special Doctor
+            doctor = SpecialDoctor.objects.filter(id=doctor_id).first()
+            if doctor:
+                model = SpecialDoctor
+            else:
+                # 3. Try Top Doctor
+                doctor = TopDoctor.objects.filter(id=doctor_id).first()
+                if doctor:
+                    model = TopDoctor
+                else:
+                    raise serializers.ValidationError(f"Doctor with id {doctor_id} not found in any service.")
             
-        try:
-            content_type = ContentType.objects.get_for_model(model)
-            # Verify object exists
-            model.objects.get(id=service_id)
-        except model.DoesNotExist:
-            raise serializers.ValidationError(f"{service_type.capitalize()} Doctor with id {service_id} does not exist.")
+        content_type = ContentType.objects.get_for_model(model)
         
         appointment = Appointment.objects.create(
             user=user,
             content_type=content_type,
-            object_id=service_id,
+            object_id=doctor_id,
             **validated_data
         )
         return appointment
