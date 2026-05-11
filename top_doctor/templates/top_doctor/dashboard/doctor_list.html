@@ -22,6 +22,9 @@
             {% for doctor in doctors %}
             <tr>
                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                     {{ forloop.counter }}
+               </td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 w-10 h-10">
                             {% if doctor.image %}
@@ -42,7 +45,7 @@
                     <p class="text-gray-900 whitespace-no-wrap">{{ doctor.years_of_experience }}</p>
                 </td>
                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <p class="text-gray-900 whitespace-no-wrap">₹{{ doctor.doctor_fees }}</p>
+                    <p class="text-gray-900 whitespace-no-wrap">৳{{ doctor.doctor_fees }}</p>
                 </td>
                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                     <a href="{% url 'top-doctor-edit' doctor.id %}" class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded hover:bg-emerald-200 transition">Edit</a>
