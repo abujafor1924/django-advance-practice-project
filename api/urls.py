@@ -10,4 +10,5 @@ urlpatterns = [
     path('medical-accessories/', include('medical_accessories.urls')),
     path('top-doctor/', include('top_doctor.urls')),
     path('special-doctor/', include('special_doctor.urls')),
+    path('notifications/', include('notifications.urls')),
 ]

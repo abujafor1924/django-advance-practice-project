@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'medical_accessories',
     'top_doctor',
     'special_doctor',
+    'notifications',
 ]
 
 MIDDLEWARE = [
