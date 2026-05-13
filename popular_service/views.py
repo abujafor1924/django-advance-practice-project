@@ -2,6 +2,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import ServiceCategory, SubCategory, Hospital, Doctor
+from django.db.models import Case, When, Value, IntegerField, Q
 from .serializers import (
     ServiceCategorySerializer, SubCategorySerializer,
     DoctorListSerializer, DoctorDetailSerializer
@@ -25,10 +26,40 @@ class SubCategoryListView(generics.ListAPIView):
     pagination_class = None
 
 class DoctorListView(generics.ListAPIView):
-    queryset = Doctor.objects.select_related('hospital', 'subcategory').all()
     serializer_class = DoctorListSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['subcategory', 'subcategory__category']
+    
+    def get_queryset(self):
+        return Doctor.objects.select_related(
+            'hospital',
+            'subcategory'
+        ).annotate(
+            priority=Case(
+                # Professor (Full) - Must not match Associate or Assistant
+                When(
+                    Q(designation__iregex=r'prof(\.|essor)?') & 
+                    ~Q(designation__iregex=r'associate|assistant'),
+                    then=Value(1)
+                ),
+
+                # Associate Professor
+                When(
+                    designation__iregex=r'associate\s*prof',
+                    then=Value(2)
+                ),
+
+                # Assistant Professor
+                When(
+                    designation__iregex=r'assistant\s*prof',
+                    then=Value(3)
+                ),
+
+                # Others
+                default=Value(4),
+                output_field=IntegerField()
+            )
+        ).order_by('priority', '-id')
 
 class DoctorDetailView(generics.RetrieveAPIView):
     queryset = Doctor.objects.select_related('hospital', 'subcategory').all()
