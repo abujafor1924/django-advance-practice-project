@@ -12,8 +12,8 @@
             <a href="{% url 'doctor-dashboard' %}" class="text-xl font-bold">Bellevie Doctor Admin</a>
             <div class="flex items-center space-x-4">
                 <a href="{% url 'doctor-dashboard' %}" class="hover:underline {% if request.resolver_match.url_name == 'doctor-dashboard' %}font-bold border-b-2{% endif %}">Popular Doctors</a>
-                <a href="{% url 'special-doctor-dashboard' %}" class="hover:underline">Special Doctors</a>
-                <a href="{% url 'top-doctor-dashboard' %}" class="hover:underline">General Physician Doctors</a>
+                {% comment %} <a href="{% url 'special-doctor-dashboard' %}" class="hover:underline">Special Doctors</a> {% endcomment %}
+                {% comment %} <a href="{% url 'top-doctor-dashboard' %}" class="hover:underline">General Physician Doctors</a> {% endcomment %}
                 <div class="border-l border-blue-400 h-6 mx-2"></div>
                
             </div>
