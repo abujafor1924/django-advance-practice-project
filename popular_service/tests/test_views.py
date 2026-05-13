@@ -35,6 +35,51 @@ class ViewTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['name'], "Dr. Smith")
 
+    def test_doctor_list_sorting(self):
+        # Clear existing doctors to have a clean slate for sorting test
+        Doctor.objects.all().delete()
+        
+        # Create doctors with different titles to test priority sorting
+        # Priority 1: Professor
+        d1 = Doctor.objects.create(
+            name="Professor Alice", designation="Cardiologist",
+            hospital=self.hospital, subcategory=self.subcategory
+        )
+        # Priority 2: Associate Professor
+        d2 = Doctor.objects.create(
+            name="Associate Prof. Bob", designation="Cardiologist",
+            hospital=self.hospital, subcategory=self.subcategory
+        )
+        # Priority 3: Assistant Professor
+        d3 = Doctor.objects.create(
+            name="Assistant Prof. Charlie", designation="Cardiologist",
+            hospital=self.hospital, subcategory=self.subcategory
+        )
+        # Priority 4: Default (General Doctor)
+        d4 = Doctor.objects.create(
+            name="Dr. Dave", designation="Cardiologist",
+            hospital=self.hospital, subcategory=self.subcategory
+        )
+        # Priority 1: Another Professor (should come after d1 due to -id ordering if priority is same)
+        d5 = Doctor.objects.create(
+            name="Prof. Eve", designation="Cardiologist",
+            hospital=self.hospital, subcategory=self.subcategory
+        )
+
+        url = reverse('doctor-list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        # Expected order based on priority: 1, 1, 2, 3, 4
+        # Within priority 1: d5 (ID larger), d1 (ID smaller) because of order_by('priority', '-id')
+        results = response.data['results']
+        self.assertEqual(len(results), 5)
+        self.assertEqual(results[0]['name'], "Prof. Eve")
+        self.assertEqual(results[1]['name'], "Professor Alice")
+        self.assertEqual(results[2]['name'], "Associate Prof. Bob")
+        self.assertEqual(results[3]['name'], "Assistant Prof. Charlie")
+        self.assertEqual(results[4]['name'], "Dr. Dave")
+
     def test_create_appointment_for_popular_doctor(self):
         self.client.force_authenticate(user=self.user)
         url = reverse('create-appointment')

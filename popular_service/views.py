@@ -39,23 +39,22 @@ class DoctorListView(generics.ListAPIView):
 
                 # Associate Professor
                 When(
-                    designation__iregex=r'associate\s*prof',
+                    name__iregex=r'associate\s*prof',
                     then=Value(2)
                 ),
 
                 # Assistant Professor
                 When(
-                    designation__iregex=r'assistant\s*prof',
+                    name__iregex=r'assistant\s*prof',
                     then=Value(3)
                 ),
 
                 # Full Professor
                 When(
-                    designation__iregex=r'(^|[\s\.])prof(\.|essor)?',
+                    name__iregex=r'(^|[\s\.])prof(\.|essor)?',
                     then=Value(1)
                 ),
 
-                # Others
                 default=Value(4),
                 output_field=IntegerField()
             )
