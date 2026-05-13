@@ -1,7 +1,7 @@
 from django.db import models
 
 class CollaborationsCompany(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255,null=True, blank=True)
     icon = models.ImageField(upload_to='collaborations/')
     created_at = models.DateTimeField(auto_now_add=True)
 
