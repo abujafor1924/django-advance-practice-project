@@ -29,19 +29,13 @@ class DoctorListView(generics.ListAPIView):
     serializer_class = DoctorListSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['subcategory', 'subcategory__category']
-    
+
     def get_queryset(self):
         return Doctor.objects.select_related(
             'hospital',
             'subcategory'
         ).annotate(
             priority=Case(
-                # Professor (Full) - Must not match Associate or Assistant
-                When(
-                    Q(designation__iregex=r'prof(\.|essor)?') & 
-                    ~Q(designation__iregex=r'associate|assistant'),
-                    then=Value(1)
-                ),
 
                 # Associate Professor
                 When(
@@ -53,6 +47,12 @@ class DoctorListView(generics.ListAPIView):
                 When(
                     designation__iregex=r'assistant\s*prof',
                     then=Value(3)
+                ),
+
+                # Full Professor
+                When(
+                    designation__iregex=r'(^|[\s\.])prof(\.|essor)?',
+                    then=Value(1)
                 ),
 
                 # Others
