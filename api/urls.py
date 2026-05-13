@@ -11,4 +11,5 @@ urlpatterns = [
     path('top-doctor/', include('top_doctor.urls')),
     path('special-doctor/', include('special_doctor.urls')),
     path('notifications/', include('notifications.urls')),
+    path('package/', include('package.urls')),
 ]
