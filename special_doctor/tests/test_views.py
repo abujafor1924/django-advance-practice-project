@@ -16,8 +16,7 @@ class SpecialDoctorViewSetTest(APITestCase):
             designation="Senior Cardiologist",
             years_of_experience=10,
             doctor_fees=500.00,
-            hospital=self.hospital,
-            subcategory=self.subcategory
+            hospital=self.hospital
         )
 
     def test_get_special_doctor_list(self):

@@ -101,7 +101,6 @@ class ServiceObjectSerializer(serializers.Serializer):
                 'name': instance.name,
                 'designation': instance.designation,
                 'hospital': instance.hospital.name if instance.hospital else None,
-                'subcategory_id': instance.subcategory.id if instance.subcategory else None,
             }
         elif isinstance(instance, TopDoctor):
             return {

@@ -11,10 +11,10 @@ from django.contrib import messages
 from .forms import SpecialDoctorForm
 
 class SpecialDoctorListView(generics.ListAPIView):
-    queryset = SpecialDoctor.objects.select_related('hospital', 'subcategory__category').all()
+    queryset = SpecialDoctor.objects.select_related('hospital').all()
     serializer_class = SpecialDoctorListSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['subcategory', 'subcategory__category', 'hospital']
+    filterset_fields = ['hospital']
     search_fields = ['name', 'designation']
     ordering_fields = ['years_of_experience', 'doctor_fees']
 

@@ -15,8 +15,7 @@ class SpecialDoctorModelTest(TestCase):
             designation="Senior Cardiologist",
             years_of_experience=10,
             doctor_fees="500 BDT",
-            hospital=self.hospital,
-            subcategory=self.subcategory
+            hospital=self.hospital
         )
 
     def test_special_doctor_creation(self):

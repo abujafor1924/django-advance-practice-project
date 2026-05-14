@@ -13,8 +13,7 @@ class SpecialDoctorSerializerTest(TestCase):
             designation="Senior Cardiologist",
             years_of_experience=10,
             doctor_fees="500 BDT",
-            hospital=self.hospital,
-            subcategory=self.subcategory
+            hospital=self.hospital
         )
 
     def test_special_doctor_list_serializer(self):
@@ -22,11 +21,9 @@ class SpecialDoctorSerializerTest(TestCase):
         data = serializer.data
         self.assertEqual(data['name'], "Dr. Smith")
         self.assertEqual(data['hospital_name'], "City Hospital")
-        self.assertEqual(data['subcategory_name'], "Cardiology")
 
     def test_special_doctor_detail_serializer(self):
         serializer = SpecialDoctorDetailSerializer(instance=self.doctor)
         data = serializer.data
         self.assertEqual(data['name'], "Dr. Smith")
         self.assertEqual(data['hospital']['name'], "City Hospital")
-        self.assertEqual(data['subcategory_name'], "Cardiology")
