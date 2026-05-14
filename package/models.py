@@ -13,10 +13,10 @@ class CollaborationsCompany(models.Model):
         return self.name
 
 class Package(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255,null=True, blank=True)
     icon = models.ImageField(upload_to='package_icons/')
-    details = models.TextField()
-    contact = models.CharField(max_length=255)
+    details = models.TextField(null=True, blank=True)
+    contact = models.CharField(max_length=255,null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
