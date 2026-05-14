@@ -4,7 +4,7 @@ from .models import ServiceCategory, SubCategory, Hospital, Doctor
 class ServiceCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceCategory
-        fields = ['id', 'name', 'icon']
+        fields = ['id', 'name', 'icon', 'banner']
 
 class SubCategorySerializer(serializers.ModelSerializer):
     class Meta:

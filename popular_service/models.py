@@ -3,6 +3,7 @@ from django.db import models
 class ServiceCategory(models.Model):
     name = models.CharField(max_length=255)
     icon = models.ImageField(upload_to='service_icons/', null=True, blank=True)
+    banner = models.ImageField(upload_to='service_banners/', null=True, blank=True)
 
     def __str__(self):
         return self.name

@@ -1,12 +1,13 @@
 from django import forms
-from .models import SpecialDoctor, Hospital, SubCategory
+from .models import SpecialDoctor
+from popular_service.models import Hospital, SubCategory
 
 class SpecialDoctorForm(forms.ModelForm):
     class Meta:
         model = SpecialDoctor
         fields = [
             'name', 'image', 'designation', 'years_of_experience', 
-            'doctor_fees', 'hospital', 'subcategory', 
+            'doctor_fees', 'hospital', 
             'doctor_details', 'doctor_sedule', 'contact_details'
         ]
         widgets = {
@@ -15,7 +16,6 @@ class SpecialDoctorForm(forms.ModelForm):
             'years_of_experience': forms.NumberInput(attrs={'class': 'w-full p-2 border rounded'}),
             'doctor_fees': forms.NumberInput(attrs={'class': 'w-full p-2 border rounded'}),
             'hospital': forms.Select(attrs={'class': 'w-full p-2 border rounded'}),
-            'subcategory': forms.Select(attrs={'class': 'w-full p-2 border rounded'}),
             'doctor_details': forms.Textarea(attrs={'class': 'w-full p-2 border rounded', 'rows': 3}),
             'doctor_sedule': forms.Textarea(attrs={'class': 'w-full p-2 border rounded', 'rows': 3}),
             'contact_details': forms.Textarea(attrs={'class': 'w-full p-2 border rounded', 'rows': 3}),

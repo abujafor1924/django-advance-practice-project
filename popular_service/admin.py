@@ -3,7 +3,7 @@ from .models import ServiceCategory, SubCategory, Hospital, Doctor
 
 @admin.register(ServiceCategory)
 class ServiceCategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('id', 'name', 'icon', 'banner')
     search_fields = ('name',)
 
 @admin.register(SubCategory)
