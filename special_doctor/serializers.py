@@ -8,7 +8,7 @@ class SpecialDoctorListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SpecialDoctor
-        fields = ['id', 'name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital_name', 'subcategory_name']
+        fields = ['id', 'name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital_name', ]
 
 class SpecialDoctorDetailSerializer(serializers.ModelSerializer):
     hospital = PopularServiceHospitalSerializer(read_only=True)
@@ -16,4 +16,4 @@ class SpecialDoctorDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SpecialDoctor
-        fields = ['id', 'name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital', 'subcategory_name', 'doctor_details', 'doctor_sedule', 'contact_details']
+        fields = ['id', 'name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital',  'doctor_details', 'doctor_sedule', 'contact_details']
