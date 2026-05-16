@@ -162,6 +162,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 
 CSRF_TRUSTED_ORIGINS = [
+    "http://66.29.151.40:6060",
+    "http://66.29.151.40",
     "https://dara-unadjudicated-befittingly.ngrok-free.dev",
     "http://dara-unadjudicated-befittingly.ngrok-free.dev",
     "https://*.ngrok-free.dev",

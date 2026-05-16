@@ -1,0 +1,17 @@
+[Unit]
+Description=gunicorn daemon for BelleVie
+After=network.target
+
+[Service]
+User={{SERVER_USER}}
+Group=www-data
+WorkingDirectory=/var/www/bellevie-backend-code
+EnvironmentFile=/var/www/bellevie-backend-code/.env
+ExecStart=/var/www/bellevie-backend-code/venv/bin/gunicorn \
+    --access-logfile - \
+    --workers 3 \
+    --bind unix:/run/gunicorn.sock \
+    bellevie.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
