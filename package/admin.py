@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CollaborationsCompany, Package
+from .models import CollaborationsCompany, Package, SocialMediaServices
 
 @admin.register(CollaborationsCompany)
 class CollaborationsCompanyAdmin(admin.ModelAdmin):
@@ -10,3 +10,8 @@ class CollaborationsCompanyAdmin(admin.ModelAdmin):
 class PackageAdmin(admin.ModelAdmin):
     list_display = ('name', 'contact', 'created_at')
     search_fields = ('name', 'contact')
+
+@admin.register(SocialMediaServices)
+class SocialMediaServicesAdmin(admin.ModelAdmin):
+    list_display = ('name', 'created_at')
+    search_fields = ('name',)
