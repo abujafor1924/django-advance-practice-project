@@ -4,17 +4,17 @@ from .models import ServiceCategory, SubCategory, Hospital, Doctor
 class ServiceCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceCategory
-        fields = ['id', 'name', 'icon', 'banner']
+        fields = ('id', 'name', 'name_en', 'name_bn', 'icon', 'banner')
 
 class SubCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = SubCategory
-        fields = ['id', 'category', 'name', 'icon']
+        fields = "__all__"
 
 class PopularServiceHospitalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hospital
-        fields = ['id', 'name']
+        fields = "__all__"
 
 class DoctorListSerializer(serializers.ModelSerializer):
     hospital_name = serializers.CharField(source='hospital.name', read_only=True)
@@ -22,7 +22,7 @@ class DoctorListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Doctor
-        fields = ['id', 'name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital_name', 'subcategory_name']
+        fields = "__all__"
 
 class DoctorDetailSerializer(serializers.ModelSerializer):
     hospital = PopularServiceHospitalSerializer(read_only=True)
@@ -30,4 +30,4 @@ class DoctorDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Doctor
-        fields = ['id', 'name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital', 'subcategory_name', 'doctor_details', 'doctor_sedule', 'contact_details']
+        fields = "__all__"

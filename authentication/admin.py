@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from modeltranslation.admin import TabbedTranslationAdmin
 from .models import User, Appointment, Payment
 
 class AppointmentInline(admin.TabularInline):
@@ -10,7 +11,7 @@ class AppointmentInline(admin.TabularInline):
     show_change_link = True
 
 @admin.register(User)
-class UserAdmin(BaseUserAdmin):
+class UserAdmin(BaseUserAdmin, TabbedTranslationAdmin):
     list_display = ('phone_number', 'name', 'email', 'district', 'is_verified', 'is_staff', 'is_active')
     list_filter = ('district', 'is_verified', 'is_staff', 'is_superuser', 'is_active')
     inlines = [AppointmentInline]

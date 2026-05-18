@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
-from .models import CollaborationsCompany, Package, SocialMediaServices
-from .serializers import CollaborationsCompanySerializer, PackageSerializer, SocialMediaServicesSerializer
+from .models import CollaborationsCompany, Package, SocialMediaService
+from .serializers import CollaborationsCompanySerializer, PackageSerializer, SocialMediaServiceSerializer
 
 class CollaborationsCompanyListView(generics.ListAPIView):
     queryset = CollaborationsCompany.objects.all()
@@ -18,7 +18,7 @@ class PackageRetrieveView(generics.RetrieveAPIView):
     serializer_class = PackageSerializer
     permission_classes = [AllowAny]
 
-class SocialMediaServicesListView(generics.ListAPIView):
-    queryset = SocialMediaServices.objects.all()
-    serializer_class = SocialMediaServicesSerializer
+class SocialMediaServiceListView(generics.ListAPIView):
+    queryset = SocialMediaService.objects.all()
+    serializer_class = SocialMediaServiceSerializer
     permission_classes = [AllowAny]

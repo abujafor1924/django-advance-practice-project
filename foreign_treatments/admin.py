@@ -1,13 +1,14 @@
 from django.contrib import admin
+from modeltranslation.admin import TabbedTranslationAdmin, TranslationStackedInline
 from .models import Country, Hospital, HospitalDetail
 
-class HospitalDetailInline(admin.StackedInline):
+class HospitalDetailInline(TranslationStackedInline):
     model = HospitalDetail
     can_delete = False
     verbose_name_plural = 'Hospital Details'
 
 @admin.register(Country)
-class CountryAdmin(admin.ModelAdmin):
+class CountryAdmin(TabbedTranslationAdmin):
     list_display = ('id', 'name', 'created_at')
     search_fields = ('name',)
     list_filter = ('created_at',)
@@ -17,7 +18,7 @@ class CountryAdmin(admin.ModelAdmin):
    
 
 @admin.register(Hospital)
-class HospitalAdmin(admin.ModelAdmin):
+class HospitalAdmin(TabbedTranslationAdmin):
     list_display = ('id', 'name', 'country', 'speciality', 'created_at')
     list_filter = ('country', 'created_at')
     search_fields = ('name', 'country__name')
@@ -28,7 +29,7 @@ class HospitalAdmin(admin.ModelAdmin):
     
 
 @admin.register(HospitalDetail)
-class HospitalDetailAdmin(admin.ModelAdmin):
+class HospitalDetailAdmin(TabbedTranslationAdmin):
     list_display = ('id', 'hospital', 'created_at',)
     search_fields = ('hospital__name',)
     can_delete = False

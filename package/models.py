@@ -25,7 +25,7 @@ class Package(models.Model):
     def __str__(self):
         return self.name
 
-class SocialMediaServices(models.Model):
+class SocialMediaService(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     icon = models.ImageField(upload_to='social_media_icons/')
     created_at = models.DateTimeField(auto_now_add=True)

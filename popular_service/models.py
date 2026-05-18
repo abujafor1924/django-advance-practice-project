@@ -20,6 +20,9 @@ class SubCategory(models.Model):
     def __str__(self):
         return f"{self.category.name} - {self.name}"
 
+    class Meta:
+        ordering = ['id']
+
 class Hospital(models.Model):
     name = models.CharField(max_length=255)
     address = models.TextField(null=True, blank=True)

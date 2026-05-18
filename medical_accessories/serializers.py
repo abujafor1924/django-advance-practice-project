@@ -9,11 +9,11 @@ class AccessoryCategorySerializer(serializers.ModelSerializer):
 class MedicalAccessoryListSerializer(serializers.ModelSerializer):
     class Meta:
         model = MedicalAccessory
-        fields = ['id', 'name', 'image']
+        fields = "__all__"
 
 class MedicalAccessoryDetailSerializer(serializers.ModelSerializer):
     category_name = serializers.ReadOnlyField(source='category.name')
     
     class Meta:
         model = MedicalAccessory
-        fields = ['id', 'category', 'category_name', 'name', 'image', 'details', 'contact_details', 'created_at']
+        fields = "__all__"

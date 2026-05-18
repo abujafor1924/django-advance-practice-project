@@ -1,17 +1,17 @@
 from rest_framework import serializers
-from .models import CollaborationsCompany, Package, SocialMediaServices
+from .models import CollaborationsCompany, Package, SocialMediaService
 
 class CollaborationsCompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = CollaborationsCompany
-        fields = ['id', 'name', 'icon', 'created_at']
+        fields = "__all__"
 
 class PackageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Package
-        fields = ['id', 'name', 'icon', 'details', 'contact', 'created_at']
+        fields = "__all__"
 
-class SocialMediaServicesSerializer(serializers.ModelSerializer):
+class SocialMediaServiceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SocialMediaServices
-        fields = ['id', 'name', 'icon', 'created_at']
+        model = SocialMediaService
+        fields = "__all__"

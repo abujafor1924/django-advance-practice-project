@@ -6,7 +6,7 @@ class CountrySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Country
-        fields = ['id', 'name', 'flag', 'hospital_count']
+        fields = "__all__"
 
     def get_hospital_count(self, obj) -> int:
         return obj.hospitals.count()
@@ -14,9 +14,9 @@ class CountrySerializer(serializers.ModelSerializer):
 class HospitalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hospital
-        fields = ['id', 'name', 'icon', 'speciality', 'country']
+        fields = "__all__"
 
 class HospitalDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = HospitalDetail
-        fields = ['id', 'hospital', 'banner', 'description', 'contact_info']
+        fields = "__all__"

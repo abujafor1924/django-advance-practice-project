@@ -7,11 +7,11 @@ class SpecialDoctorListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SpecialDoctor
-        fields = ['id', 'name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital_name']
+        fields = "__all__"
 
 class SpecialDoctorDetailSerializer(serializers.ModelSerializer):
     hospital = PopularServiceHospitalSerializer(read_only=True)
 
     class Meta:
         model = SpecialDoctor
-        fields = ['id', 'name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital',  'doctor_details', 'doctor_sedule', 'contact_details']
+        fields = "__all__"
