@@ -18,7 +18,7 @@ class PopularServiceHospitalSerializer(serializers.ModelSerializer):
 
 class DoctorListSerializer(serializers.ModelSerializer):
     hospital_name = serializers.CharField(source='hospital.name', read_only=True)
-    subcategory_name = serializers.CharField(source='subcategory.name', read_only=True)
+    subcategories = SubCategorySerializer(many=True, read_only=True)
 
     class Meta:
         model = Doctor
@@ -26,7 +26,7 @@ class DoctorListSerializer(serializers.ModelSerializer):
 
 class DoctorDetailSerializer(serializers.ModelSerializer):
     hospital = PopularServiceHospitalSerializer(read_only=True)
-    subcategory_name = serializers.CharField(source='subcategory.name', read_only=True)
+    subcategories = SubCategorySerializer(many=True, read_only=True)
 
     class Meta:
         model = Doctor

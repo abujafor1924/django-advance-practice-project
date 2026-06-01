@@ -28,12 +28,13 @@ class SubCategoryListView(generics.ListAPIView):
 class DoctorListView(generics.ListAPIView):
     serializer_class = DoctorListSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['subcategory', 'subcategory__category']
+    filterset_fields = ['subcategories', 'subcategories__category']
 
     def get_queryset(self):
         return Doctor.objects.select_related(
-            'hospital',
-            'subcategory'
+            'hospital'
+        ).prefetch_related(
+            'subcategories'
         ).annotate(
             priority=Case(
 
@@ -61,7 +62,7 @@ class DoctorListView(generics.ListAPIView):
         ).order_by('priority', '-id')
 
 class DoctorDetailView(generics.RetrieveAPIView):
-    queryset = Doctor.objects.select_related('hospital', 'subcategory').all()
+    queryset = Doctor.objects.select_related('hospital').prefetch_related('subcategories').all()
     serializer_class = DoctorDetailSerializer
 
 # Custom Dashboard Views (Tailwind CSS)

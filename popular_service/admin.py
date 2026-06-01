@@ -19,7 +19,11 @@ class HospitalAdmin(TabbedTranslationAdmin):
 
 @admin.register(Doctor)
 class DoctorAdmin(TabbedTranslationAdmin):
-    list_display = ('id', 'name', 'designation', 'years_of_experience', 'doctor_fees', 'hospital', 'subcategory')
-    list_filter = ('hospital', 'subcategory')
+    list_display = ('id', 'name', 'designation', 'years_of_experience', 'doctor_fees', 'hospital', 'get_subcategories')
+    list_filter = ('hospital', 'subcategories')
     search_fields = ('name', 'designation')
-    fields = ('name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital', 'subcategory', 'doctor_details', 'doctor_sedule', 'contact_details')
+    fields = ('name', 'image', 'designation', 'years_of_experience', 'doctor_fees', 'hospital', 'subcategories', 'doctor_details', 'doctor_sedule', 'contact_details')
+
+    def get_subcategories(self, obj):
+        return ", ".join([s.name for s in obj.subcategories.all()])
+    get_subcategories.short_description = 'Subcategories'
