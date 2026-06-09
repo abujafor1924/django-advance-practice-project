@@ -15,3 +15,8 @@ class SocialMediaServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocialMediaService
         fields = "__all__"
+
+class SocialMediaServiceDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SocialMediaService
+        fields = "__all__"

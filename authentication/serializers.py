@@ -85,6 +85,9 @@ class PaymentCreateSerializer(serializers.ModelSerializer):
 
 class ServiceObjectSerializer(serializers.Serializer):
     def to_representation(self, instance):
+        if instance is None:
+            return None
+            
         if isinstance(instance, Doctor):
             return {
                 'id': instance.id,
@@ -92,7 +95,7 @@ class ServiceObjectSerializer(serializers.Serializer):
                 'name': instance.name,
                 'designation': instance.designation,
                 'hospital': instance.hospital.name if instance.hospital else None,
-                'subcategory_id': instance.subcategory.id if instance.subcategory else None,
+                'subcategory_id': instance.subcategories.first().id if instance.subcategories.exists() else None,
             }
         elif isinstance(instance, SpecialDoctor):
             return {

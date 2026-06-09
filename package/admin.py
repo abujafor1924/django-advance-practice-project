@@ -14,5 +14,5 @@ class PackageAdmin(TabbedTranslationAdmin):
 
 @admin.register(SocialMediaService)
 class SocialMediaServiceAdmin(TabbedTranslationAdmin):
-    list_display = ('name', 'created_at')
-    search_fields = ('name',)
+    list_display = ('name', 'link', 'created_at')
+    search_fields = ('name', 'link')

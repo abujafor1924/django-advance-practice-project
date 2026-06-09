@@ -3,7 +3,7 @@ from .models import CollaborationsCompany, Package, SocialMediaService
 
 @register(CollaborationsCompany)
 class CollaborationsCompanyTranslationOptions(TranslationOptions):
-    fields = ('name',)
+    fields = ('name', 'details')
 
 @register(Package)
 class PackageTranslationOptions(TranslationOptions):
@@ -11,4 +11,4 @@ class PackageTranslationOptions(TranslationOptions):
 
 @register(SocialMediaService)
 class SocialMediaServiceTranslationOptions(TranslationOptions):
-    fields = ('name',)
+    fields = ('name', 'details')

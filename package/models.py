@@ -3,6 +3,7 @@ from django.db import models
 class CollaborationsCompany(models.Model):
     name = models.CharField(max_length=255,null=True, blank=True)
     icon = models.ImageField(upload_to='collaborations/')
+    details = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -27,6 +28,8 @@ class Package(models.Model):
 
 class SocialMediaService(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
+    link = models.URLField(max_length=500, null=True, blank=True)
+    details = models.TextField(null=True, blank=True)
     icon = models.ImageField(upload_to='social_media_icons/')
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -35,4 +38,4 @@ class SocialMediaService(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return self.name
+        return self.name or "Unnamed Service"
