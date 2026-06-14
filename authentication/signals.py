@@ -1,7 +1,7 @@
 import os
-from django.db.models.signals import pre_save, post_delete
+from django.db.models.signals import pre_save, post_delete, post_save
 from django.dispatch import receiver
-from .models import User
+from .models import User, Appointment
 
 @receiver(pre_save, sender=User)
 def auto_delete_file_on_change(sender, instance, **kwargs):
@@ -33,3 +33,22 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
     if instance.profile_picture and instance.profile_picture.name != 'profile_pics/default.png':
         if os.path.isfile(instance.profile_picture.path):
             os.remove(instance.profile_picture.path)
+
+@receiver(post_save, sender=Appointment)
+def send_appointment_notification(sender, instance, created, **kwargs):
+    if created:
+        from notifications.models import Notification
+        from notifications.tasks import send_websocket_notification
+        
+        title = "New Appointment"
+        message = f"Your appointment for {instance.patient_name} on {instance.appointment_date} at {instance.appointment_time} has been created."
+        
+        # Create database notification
+        Notification.objects.create(
+            user=instance.user,
+            title=title,
+            message=message
+        )
+        
+        # Offload WebSocket notification to Celery
+        send_websocket_notification.delay(instance.user.id, title, message)

@@ -35,6 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 INSTALLED_APPS = [
     #default django apps
+    # "daphne",
     "jazzmin",
     "modeltranslation",
     'django.contrib.admin',
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     
     
     #third party apps
+    # 'channels',
     'rest_framework',
     'django_filters',
     'rest_framework_simplejwt.token_blacklist',
@@ -65,6 +67,17 @@ INSTALLED_APPS = [
     'notifications',
     'package',
 ]
+
+ASGI_APPLICATION = 'bellevie.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(config("REDIS_HOST", default="127.0.0.1"), config("REDIS_PORT", default=6379, cast=int))],
+        },
+    },
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', 
@@ -125,6 +138,14 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Dhaka'
+
+# Celery Configuration
+CELERY_BROKER_URL = f"redis://{config('REDIS_HOST', default='127.0.0.1')}:{config('REDIS_PORT', default=6379)}/0"
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
 
 USE_I18N = True
 
