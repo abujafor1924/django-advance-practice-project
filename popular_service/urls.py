@@ -6,6 +6,8 @@ from .views import (
     DoctorDashboardListView, DoctorCreateView, DoctorUpdateView, DoctorDeleteView
 )
 
+app_name = 'popular_service'
+
 urlpatterns = [
     # Category APIs
     path('categories/', ServiceCategoryListView.as_view(), name='category-list'),

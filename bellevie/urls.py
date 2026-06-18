@@ -26,6 +26,7 @@ urlpatterns = [
     
     #============================ API Endpoints =============================
     path('api/v1/', include('api.urls')),
+    path('admin-panel/', include('adminpanel.urls')),
 
     
     

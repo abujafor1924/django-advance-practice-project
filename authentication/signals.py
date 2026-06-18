@@ -1,7 +1,8 @@
 import os
 from django.db.models.signals import pre_save, post_delete, post_save
 from django.dispatch import receiver
-from .models import User, Appointment
+from .models import User, Appointment, Payment
+from notifications.utils import send_notification
 
 @receiver(pre_save, sender=User)
 def auto_delete_file_on_change(sender, instance, **kwargs):
@@ -34,21 +35,42 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
         if os.path.isfile(instance.profile_picture.path):
             os.remove(instance.profile_picture.path)
 
+@receiver(pre_save, sender=Appointment)
+def store_previous_appointment_status(sender, instance, **kwargs):
+    if instance.pk:
+        try:
+            instance._previous_status = Appointment.objects.get(pk=instance.pk).status
+        except Appointment.DoesNotExist:
+            instance._previous_status = None
+    else:
+        instance._previous_status = None
+
 @receiver(post_save, sender=Appointment)
 def send_appointment_notification(sender, instance, created, **kwargs):
     if created:
-        from notifications.models import Notification
-        from notifications.tasks import send_websocket_notification
-        
         title = "New Appointment"
         message = f"Your appointment for {instance.patient_name} on {instance.appointment_date} at {instance.appointment_time} has been created."
-        
-        # Create database notification
-        Notification.objects.create(
-            user=instance.user,
-            title=title,
-            message=message
-        )
-        
-        # Offload WebSocket notification to Celery
-        send_websocket_notification.delay(instance.user.id, title, message)
+        send_notification(instance.user, title, message)
+    
+    elif hasattr(instance, '_previous_status'):
+        if instance.status == 'confirmed' and instance._previous_status != 'confirmed':
+            title = "Appointment Confirmed"
+            message = f"Your appointment for {instance.patient_name} on {instance.appointment_date} at {instance.appointment_time} has been confirmed."
+            send_notification(instance.user, title, message)
+
+@receiver(pre_save, sender=Payment)
+def store_previous_payment_status(sender, instance, **kwargs):
+    if instance.pk:
+        try:
+            instance._previous_status = Payment.objects.get(pk=instance.pk).status
+        except Payment.DoesNotExist:
+            instance._previous_status = None
+    else:
+        instance._previous_status = None
+
+@receiver(post_save, sender=Payment)
+def send_payment_notification(sender, instance, created, **kwargs):
+    if instance.status == 'paid' and (created or (hasattr(instance, '_previous_status') and instance._previous_status != 'paid')):
+        title = "Payment Successful"
+        message = f"Your payment of {instance.amount} for appointment {instance.appointment.id} has been received. Status: {instance.status}."
+        send_notification(instance.appointment.user, title, message)

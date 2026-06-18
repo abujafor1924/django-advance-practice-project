@@ -5,6 +5,8 @@ from .views import (
     MedicalAccessoryDetailView
 )
 
+app_name = 'medical_accessories'
+
 urlpatterns = [
     path('categories/', AccessoryCategoryListView.as_view(), name='accessory-category-list'),
     path('accessories/', MedicalAccessoryListView.as_view(), name='medical-accessory-list'),

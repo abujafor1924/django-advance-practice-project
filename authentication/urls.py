@@ -6,6 +6,8 @@ from .views import (
     UserServiceRecordView, PaymentCreateView
 )
 
+app_name = 'authentication'
+
 urlpatterns = [
     #this is authentication urls for the application
     path('register/', RegistrationView.as_view(), name='register'),

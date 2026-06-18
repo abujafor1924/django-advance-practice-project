@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 
+app_name = 'foreign_treatments'
+
 urlpatterns = [
     path('countries/', views.CountryListView.as_view(), name='country-list'),
     path('countries/<int:pk>/', views.CountryRetrieveView.as_view(), name='country-detail'),

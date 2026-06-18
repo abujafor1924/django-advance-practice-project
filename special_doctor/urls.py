@@ -6,6 +6,8 @@ from .views import (
     SpecialDoctorDashboardListView, SpecialDoctorCreateView, SpecialDoctorUpdateView, SpecialDoctorDeleteView
 )
 
+app_name = 'special_doctor'
+
 urlpatterns = [
     path('doctors/', SpecialDoctorListView.as_view(), name='specialdoctor-list'),
     path('doctors/<int:pk>/', SpecialDoctorDetailView.as_view(), name='specialdoctor-detail'),

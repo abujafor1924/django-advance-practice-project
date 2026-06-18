@@ -5,6 +5,8 @@ from .views import (
     TopDoctorDashboardListView, TopDoctorCreateView, TopDoctorUpdateView, TopDoctorDeleteView
 )
 
+app_name = 'top_doctor'
+
 urlpatterns = [
     path('doctors/', TopDoctorListView.as_view(), name='top-doctor-list'),
 

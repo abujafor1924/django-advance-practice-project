@@ -35,7 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 INSTALLED_APPS = [
     #default django apps
-    # "daphne",
+    "daphne",
     "jazzmin",
     "modeltranslation",
     'django.contrib.admin',
@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     
     
     #third party apps
-    # 'channels',
+    'channels',
     'rest_framework',
     'django_filters',
     'rest_framework_simplejwt.token_blacklist',
@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'special_doctor',
     'notifications',
     'package',
+    'adminpanel',
 ]
 
 ASGI_APPLICATION = 'bellevie.asgi.application'
@@ -146,6 +147,13 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
+
+CELERY_BEAT_SCHEDULE = {
+    'check-appointment-reminders': {
+        'task': 'notifications.tasks.check_appointment_reminders',
+        'schedule': timedelta(minutes=15),
+    },
+}
 
 USE_I18N = True
 

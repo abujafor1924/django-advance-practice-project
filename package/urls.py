@@ -8,6 +8,8 @@ from .views import (
     SocialMediaServiceRetrieveView
 )
 
+app_name = 'package'
+
 urlpatterns = [
     path('collaborations/', CollaborationsCompanyListView.as_view(), name='collaborations-list'),
     path('collaborations/<int:pk>/', CollaborationsCompanyRetrieveView.as_view(), name='collaborations-detail'),

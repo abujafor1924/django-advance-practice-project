@@ -6,6 +6,8 @@ from .views import (
     NotificationMarkReadView
 )
 
+app_name = 'notifications'
+
 urlpatterns = [
     path('quote-wiserd/', QuoteWiserdListView.as_view(), name='quote-wiserd-list'),
     path('quote-wiserd/<int:pk>/', QuoteWiserdDetailView.as_view(), name='quote-wiserd-detail'),

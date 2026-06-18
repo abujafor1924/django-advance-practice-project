@@ -4,6 +4,8 @@ from .views import (
     SliderTwoListView, SliderTwoDetailView
 )
 
+app_name = 'slider'
+
 urlpatterns = [
     # Slider One URLs
     path('slider-one/', SliderOneListView.as_view(), name='slider-one-list'),
