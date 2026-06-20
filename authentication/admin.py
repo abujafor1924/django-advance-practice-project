@@ -11,7 +11,7 @@ class AppointmentInline(admin.TabularInline):
     show_change_link = True
 
 @admin.register(User)
-class UserAdmin(BaseUserAdmin, TabbedTranslationAdmin):
+class UserAdmin(TabbedTranslationAdmin, BaseUserAdmin):
     list_display = ('phone_number', 'name', 'email', 'district', 'is_verified', 'is_staff', 'is_active')
     list_filter = ('district', 'is_verified', 'is_staff', 'is_superuser', 'is_active')
     inlines = [AppointmentInline]

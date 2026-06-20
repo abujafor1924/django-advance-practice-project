@@ -28,3 +28,4 @@ channels_redis==4.3.0
 daphne==4.2.2
 redis==8.0.0
 celery==5.4.0
+agora-token-builder

@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'notifications',
     'package',
     'adminpanel',
+    'video_rooms',
 ]
 
 ASGI_APPLICATION = 'bellevie.asgi.application'
@@ -82,9 +83,9 @@ CHANNEL_LAYERS = {
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', 
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -189,19 +190,31 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 
+# Agora configuration (app id set from environment; certificate should be set in env)
+AGORA_APP_ID = config('AGORA_APP_ID', default='398f47514b914affb3860a5fd0a16412')
+AGORA_APP_CERTIFICATE = config('AGORA_APP_CERTIFICATE', default='87c23ff46d6642529776872f086bb0d3')
+
 CSRF_TRUSTED_ORIGINS = [
     "http://66.29.151.40:6060",
     "http://66.29.151.40",
     "https://dara-unadjudicated-befittingly.ngrok-free.dev",
     "http://dara-unadjudicated-befittingly.ngrok-free.dev",
     "https://*.ngrok-free.dev",
-    "http://*.ngrok-free.dev"
+    "http://*.ngrok-free.dev",
+    "http://66.29.151.40:3003",
 ]
 
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 CORS_ALLOW_ALL_ORIGINS = True
+# Allow cookies/auth credentials in cross-site requests when needed
+CORS_ALLOW_CREDENTIALS = True
+
+# Optional: explicit allowed origins (falls back to env)
+CORS_ALLOWED_ORIGINS = [
+    config('CORS_ALLOWED_ORIGIN_1', default='http://66.29.151.40:6060'),
+]
 
 
 #authentication settings
