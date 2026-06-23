@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Appointment, Payment
+from .models import RecordDocuments, User, Appointment, Payment
 from django.contrib.auth import authenticate
 from popular_service.models import Doctor
 from special_doctor.models import SpecialDoctor
@@ -171,3 +171,12 @@ class AppointmentCreateSerializer(serializers.ModelSerializer):
             **validated_data
         )
         return appointment
+
+
+
+
+class RecordDocumentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecordDocuments
+        fields = '__all__'
+        read_only_fields = ['user']

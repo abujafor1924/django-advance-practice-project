@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from modeltranslation.admin import TabbedTranslationAdmin
-from .models import User, Appointment, Payment
+from .models import RecordDocuments, User, Appointment, Payment
 
 class AppointmentInline(admin.TabularInline):
     model = Appointment
@@ -59,3 +59,11 @@ class PaymentAdmin(admin.ModelAdmin):
     list_filter = ('status', 'method', 'created_at')
     search_fields = ('transaction_id', 'appointment__patient_name')
     readonly_fields = ('created_at',)
+
+
+@admin.register(RecordDocuments)
+class RecordDocumentsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'documents_type', 'document', 'document_details', 'uploaded_at')
+    list_filter = ('documents_type', 'uploaded_at')
+    search_fields = ('user__phone_number', 'documents_type', 'document_details')
+    readonly_fields = ('user', 'document_details', 'uploaded_at')

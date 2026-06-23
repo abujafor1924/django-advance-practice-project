@@ -110,6 +110,22 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Payment for Appointment {self.appointment.id} - {self.status}"
+    
+    
+    
+
+class RecordDocuments(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='record_documents', on_delete=models.CASCADE)
+    documents_type=models.CharField(max_length=100, blank=True, null=True)
+    document = models.FileField(upload_to='record_documents/',blank=True, null=True)
+    document_details = models.TextField(blank=True, null=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-uploaded_at']
+
+    def __str__(self):
+        return f"Document for {self.user.phone_number} - {self.documents_type or 'No Type'}"
 
 
 

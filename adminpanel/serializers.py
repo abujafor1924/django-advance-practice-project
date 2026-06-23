@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from authentication.models import User, Appointment, Payment
+from authentication.models import RecordDocuments, User, Appointment, Payment
 
 class AdminUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,4 +14,10 @@ class AdminAppointmentSerializer(serializers.ModelSerializer):
 class AdminPaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
+        fields = '__all__'
+
+
+class AdminRecordDocumentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecordDocuments
         fields = '__all__'

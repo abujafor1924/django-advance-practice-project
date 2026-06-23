@@ -2,9 +2,9 @@ from rest_framework import status, generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import User, Appointment
+from .models import RecordDocuments, User, Appointment
 from .serializers import (
-    UserRegistrationSerializer, LoginSerializer,
+    RecordDocumentsSerializer, UserRegistrationSerializer, LoginSerializer,
     ProfileSerializer, ResetPasswordSerializer,
     LogoutSerializer, AppointmentSerializer,
     AppointmentCreateSerializer, PaymentCreateSerializer
@@ -121,3 +121,40 @@ class PaymentCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save()
+
+
+
+
+
+class RecordDocumentsCreateView(generics.CreateAPIView):
+    serializer_class = RecordDocumentsSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+    
+    
+    
+class RecordDocumentsListView(generics.ListAPIView):
+    serializer_class = RecordDocumentsSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return RecordDocuments.objects.filter(user=self.request.user)
+    
+class RecordDocumentsDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = RecordDocumentsSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return RecordDocuments.objects.filter(user=self.request.user)
+    
+# class RecordDocumentsDeleteView(generics.DestroyAPIView):
+#     serializer_class = RecordDocumentsSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+
+#     def get_queryset(self):
+#         return RecordDocuments.objects.filter(user=self.request.user)
+    
+    
+    
