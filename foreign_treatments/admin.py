@@ -1,7 +1,7 @@
 from attr import fields
 from django.contrib import admin
 from modeltranslation.admin import TabbedTranslationAdmin, TranslationStackedInline
-from import_export import resources
+from import_export import resources,fields
 from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
 from .models import BangladeshHospital, Country, District, Division, Hospital, HospitalDetail
@@ -12,24 +12,22 @@ class BangladeshHospitalResource(resources.ModelResource):
     district = fields.Field(attribute='district', column_name='district', widget=ForeignKeyWidget(District, 'name'))
     class Meta:
         model = BangladeshHospital
-        import_id_fields = ['guardian_id']
         
-        fields = (
-            "guardian_id",
-            "name_en",
-            "name_bn",
-            "division",
-            "district",
-            "area",
-            "address_en",
-            "address_bn",
-            "facilities_en",
-            "facilities_bn",
-            "contact_details_en",
-            "contact_details_bn",
-            "remark_en",
-            "remark_bn",
+    def before_import_row(self, row, **kwargs):
+        # Create Division if not exists
+        division, _ = Division.objects.get_or_create(
+            name=row["division"].strip()
         )
+
+        # Create District if not exists
+        district, _ = District.objects.get_or_create(
+            division=division,
+            name=row["district"].strip()
+        )
+
+        # Replace CSV value with objects for import
+        row["division"] = division.name
+        row["district"] = district.name
 
 
 class HospitalDetailInline(TranslationStackedInline):
