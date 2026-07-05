@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Country, Hospital, HospitalDetail
+from .models import Country, Hospital, HospitalDetail, BangladeshHospital
 
 class CountrySerializer(serializers.ModelSerializer):
     hospital_count = serializers.SerializerMethodField()
@@ -20,3 +20,13 @@ class HospitalDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = HospitalDetail
         fields = "__all__"
+
+
+
+class BangladeshHospitalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BangladeshHospital
+        fields = "__all__"
+        
+        
+    

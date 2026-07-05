@@ -37,3 +37,87 @@ class HospitalDetail(models.Model):
 
     def __str__(self):
         return f"Details for {self.hospital.name}"
+
+
+
+
+
+# --------------------------------- bangladesh hospitals ---------------------------------
+
+
+class Division(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name = " Bangladesh Division"
+        verbose_name_plural = " Bangladesh Divisions"
+
+    def __str__(self):
+        return self.name
+
+
+class District(models.Model):
+    division = models.ForeignKey(
+        Division,
+        on_delete=models.CASCADE,
+        related_name="districts",
+    )
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        ordering = ["name"]
+        unique_together = ("division", "name")
+        verbose_name = "Bangladesh District"
+        verbose_name_plural = "Bangladesh Districts"
+
+    def __str__(self):
+        return f"{self.name} ({self.division.name})"
+
+
+class BangladeshHospital(models.Model):
+    guardian_id = models.PositiveIntegerField(
+        unique=True,
+        help_text="Hospital ID from Guardian Life list."
+    )
+
+    name = models.CharField(max_length=255)
+    
+    image = models.ImageField(upload_to='bangladesh_hospital_images/', blank=True, null=True)
+
+    division = models.ForeignKey(
+        Division,
+        on_delete=models.PROTECT,
+        related_name="hospitals",
+    )
+
+    district = models.ForeignKey(
+        District,
+        on_delete=models.PROTECT,
+        related_name="hospitals",
+    )
+
+    area = models.CharField(max_length=100, blank=True)
+    address = models.TextField(blank=True)
+    facilities = models.TextField(blank=True)
+    contact_details = models.TextField(blank=True)
+    remark = models.TextField(blank=True)
+
+    active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name = "Bangladesh Hospital"
+        verbose_name_plural = "Bangladesh Hospitals"
+        indexes = [
+            models.Index(fields=["name"]),
+            models.Index(fields=["division"]),
+            models.Index(fields=["district"]),
+            models.Index(fields=["area"]),
+        ]
+
+    def __str__(self):
+        return self.name

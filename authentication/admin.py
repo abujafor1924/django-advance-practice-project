@@ -66,4 +66,4 @@ class RecordDocumentsAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'documents_type', 'document', 'document_details', 'uploaded_at')
     list_filter = ('documents_type', 'uploaded_at')
     search_fields = ('user__phone_number', 'documents_type', 'document_details')
-    readonly_fields = ('user', 'document_details', 'uploaded_at')
+    # readonly_fields = ('user', 'document_details', 'uploaded_at')

@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
-from .models import Country, Hospital, HospitalDetail
-from .serializers import CountrySerializer, HospitalSerializer, HospitalDetailSerializer
+from .models import Country, Hospital, HospitalDetail,BangladeshHospital
+from .serializers import CountrySerializer, HospitalSerializer, HospitalDetailSerializer, BangladeshHospitalSerializer
 
 class CountryListView(generics.ListAPIView):
     queryset = Country.objects.all()
@@ -42,4 +42,15 @@ class HospitalDetailRetrieveView(generics.RetrieveAPIView):
     queryset = HospitalDetail.objects.all()
     serializer_class = HospitalDetailSerializer
     lookup_field = 'hospital_id'
+    permission_classes = [AllowAny]
+
+
+class BangladeshHospitalListView(generics.ListAPIView):
+    queryset = BangladeshHospital.objects.all()
+    serializer_class = BangladeshHospitalSerializer
+    permission_classes = [AllowAny]
+    
+class BangladeshHospitalRetrieveView(generics.RetrieveAPIView):
+    queryset = BangladeshHospital.objects.all()
+    serializer_class = BangladeshHospitalSerializer
     permission_classes = [AllowAny]
