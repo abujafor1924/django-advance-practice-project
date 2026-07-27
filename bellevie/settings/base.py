@@ -36,7 +36,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 INSTALLED_APPS = [
     #default django apps
     "daphne",
-    "jazzmin",
     "modeltranslation",
     'django.contrib.admin',
     'django.contrib.auth',
@@ -233,7 +232,7 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 1000,
+    'PAGE_SIZE': 100,
 }
 
 
@@ -273,24 +272,7 @@ SIMPLE_JWT = {
 
 
 
-JAZZMIN_SETTINGS = {
-    "site_title": "Bellevie Global Admin",
-    "site_header": "Bellevie Global",
-    "site_brand": "Bellevie Global",
-    "site_logo": "logo/app_icon.png",
 
-    'show_ui_builder': True,
-    'show_side_menu': True,
-    'show_sidebar': True,
-
-    # ===========================
-    # Colors / Dark Theme
-    # ===========================
-    "theme": "darkly",  # bootstrap-based dark theme
-    "dark_mode_theme": True,  # enable dark mode
-    "topmenu_color": "dark",   # top menu dark
-    "accent": "primary",       # accent color
-}
 
 
 SPECTACULAR_SETTINGS = {

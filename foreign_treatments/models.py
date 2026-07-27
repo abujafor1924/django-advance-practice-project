@@ -121,3 +121,44 @@ class BangladeshHospital(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class InternationalCountry(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name = "International Country"
+        verbose_name_plural = "International Countries"
+
+    def __str__(self):
+        return self.name
+
+class InternationalGuardianHospital(models.Model):
+    guardian_hospital_id = models.PositiveIntegerField(
+        unique=True,
+        help_text="Hospital ID from Guardian Life list."
+    )
+
+    hospital_name = models.CharField(max_length=255)
+    country = models.ForeignKey(
+        InternationalCountry,
+        on_delete=models.PROTECT,
+        related_name="hospitals"
+    )
+    address = models.TextField()
+
+    discount = models.TextField(blank=True)
+    contact_person = models.CharField(max_length=255, blank=True)
+    contact_details = models.TextField(blank=True)
+    cashless_facility = models.TextField(blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "international_guardian_hospitals"
+        ordering = ["hospital_name"]
+
+    def __str__(self):
+        return self.hospital_name

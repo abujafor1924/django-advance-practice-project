@@ -1,5 +1,5 @@
 from modeltranslation.translator import register, TranslationOptions
-from .models import BangladeshHospital, Country, District, Division, Hospital, HospitalDetail
+from .models import BangladeshHospital, Country, District, Division, Hospital, HospitalDetail, InternationalCountry,InternationalGuardianHospital
 
 @register(Country)
 class CountryTranslationOptions(TranslationOptions):
@@ -31,4 +31,19 @@ class BangladeshHospitalTranslationOptions(TranslationOptions):
 
 @register(District)
 class DistrictTranslationOptions(TranslationOptions):
+    fields = ('name',)
+    
+@register(InternationalGuardianHospital)
+class InternationalGuardianHospitalTranslationOptions(TranslationOptions):
+    fields = (
+        "hospital_name",
+        "address",
+        "discount",
+        "contact_person",
+        "contact_details",
+        "cashless_facility"
+    )
+    
+@register(InternationalCountry)
+class InternationalCountryTranslationOptions(TranslationOptions):
     fields = ('name',)
